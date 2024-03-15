@@ -1,15 +1,7 @@
 'use client'
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 
 export const NavbarJoinButton = () => {
-    const router = useRouter();
-
-    const handleClick = () => {
-        router.push('/join'); // Use push for client-side navigation
-    };
-
-
 
     return (
       <div className="
