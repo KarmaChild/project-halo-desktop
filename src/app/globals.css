@@ -26,6 +26,10 @@ body {
   font-size: 30px;
 }
 
+.text-48 {
+  font-size: 48px;
+}
+
 .text-64 {
   font-size: 64px;
 }
@@ -36,6 +40,11 @@ body {
 
 .font-light {
   font-weight: 300;
+}
+
+.text-entry-default-size {
+  width: 430px;
+  height: 65px;
 }
 
 @layer utilities {
