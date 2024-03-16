@@ -24,9 +24,9 @@ export const TextEntryField: React.FC<TextEntryFieldProps> = ({ inputType, place
             className={`bg-grey absolute flex justify-start items-center rounded-[20px] pl-6 ${fieldLength === 'default' ? 'text-entry-default-size' : ''}`}>
             <input type={inputType}
                    className="
-                 h-[60px] w-full border-none bg-transparent outline-none text-30
+                 h-[60px] w-full border-none bg-transparent outline-none text-25
                  placeholder-opacity-50 font-[300]"
-                   placeholder="username"
+                   placeholder={placeholderText}
                    onChange={(e) => onChange?.(e.target.value)}
             />
             {/*<div className={`text-entry-field-input-container-${fieldLength}`}>*/}

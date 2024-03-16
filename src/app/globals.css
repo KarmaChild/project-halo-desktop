@@ -7,7 +7,7 @@
 }
 
 body {
-  background: var(--background-primary)
+  background: var(--background-primary);
 }
 
 .bg-grey {
@@ -20,6 +20,10 @@ body {
 
 .text-23 {
   font-size: 23px;
+}
+
+.text-25 {
+  font-size: 25px;
 }
 
 .text-30 {
@@ -40,6 +44,15 @@ body {
 
 .font-light {
   font-weight: 300;
+}
+
+.text-red {
+  color: #FF0000;
+}
+
+.border-red-alert {
+  border-width: 2px;
+  border-color: #FF0000;
 }
 
 .text-entry-default-size {

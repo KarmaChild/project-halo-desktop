@@ -3,15 +3,30 @@ import {UserNameTextEntry} from "@/app/components/UserNameTextEntry/UserNameText
 import {UserNameSignUpButton} from "@/app/components/UserNameTextEntry/UserNameSignUpButton"
 import {useState} from "react"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
+import {useRouter} from "next/navigation"
 
 export default function Home() {
-    const [username, setUsername] = useState<string | null>(null)
+    const [username, setUsername] = useState<string>('')
     const router = useRouter()
 
     const handleJoinClick = () => {
         router.push(`/join?username=${username}`)
     }
+
+    // useEffect(() => {
+    //     const searchIndex = async () => {
+    //         try {
+    //             const { hits } = await algoliaIndex.search(username!)
+    //             setResultExists(hits.length > 0)
+    //         } catch (error) {
+    //             console.error('Error searching index:', error)
+    //         }
+    //     }
+    //
+    //     if (username) {
+    //         searchIndex()
+    //     }
+    // }, [username])
 
     return (
       <div className="overflow-y-auto h-screen">
@@ -55,7 +70,7 @@ export default function Home() {
                       </p>
                   </div>
                   <div className="absolute top-[650px] left-10">
-                      <UserNameTextEntry onChange={setUsername}/>
+                      <UserNameTextEntry username={username} onChange={setUsername}/>
                       <div className="ml-[380px]">
                           <UserNameSignUpButton/>
                       </div>
