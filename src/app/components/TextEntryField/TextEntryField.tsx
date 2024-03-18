@@ -1,5 +1,5 @@
 'use client'
-import React from "react";
+import React from "react"
 
 export enum TextEntryFieldType {
     Text = 'text',
@@ -11,17 +11,18 @@ export enum TextEntryFieldType {
 }
 
 export interface TextEntryFieldProps {
-    inputType: TextEntryFieldType;
-    placeholderText: string;
-    fieldLength: TextEntryFieldType;
-    value?: string;
-    onChange?: (value: string) => void;
+    inputType: TextEntryFieldType
+    fieldLength: TextEntryFieldType
+    placeholderText?: string
+    alert?: boolean
+    value?: string
+    onChange?: (value: string) => void
 }
 
-export const TextEntryField: React.FC<TextEntryFieldProps> = ({ inputType, placeholderText, fieldLength, value, onChange}) => {
+export const TextEntryField: React.FC<TextEntryFieldProps> = ({ inputType, placeholderText, fieldLength, alert, value, onChange}) => {
     return (
         <div
-            className={`bg-grey absolute flex justify-start items-center rounded-[20px] pl-6 ${fieldLength === 'default' ? 'text-entry-default-size' : ''}`}>
+            className={`bg-grey absolute flex justify-start items-center rounded-[20px] pl-6 ${fieldLength === 'default' ? 'text-entry-default-size' : ''} ${alert ? "border-red-alert" : ""}`}>
             <input type={inputType}
                    className="
                  h-[60px] w-full border-none bg-transparent outline-none text-25

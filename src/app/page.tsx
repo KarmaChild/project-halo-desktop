@@ -3,14 +3,12 @@ import {UserNameTextEntry} from "@/app/components/UserNameTextEntry/UserNameText
 import {UserNameSignUpButton} from "@/app/components/UserNameTextEntry/UserNameSignUpButton"
 import {useState} from "react"
 import Image from "next/image"
-import {useRouter} from "next/navigation"
 
 export default function Home() {
     const [username, setUsername] = useState<string>('')
-    const router = useRouter()
 
     const handleJoinClick = () => {
-        router.push(`/join?username=${username}`)
+        window.open(`/join?username=${username}`, '_blank')
     }
 
     // useEffect(() => {
@@ -72,7 +70,7 @@ export default function Home() {
                   <div className="absolute top-[650px] left-10">
                       <UserNameTextEntry username={username} onChange={setUsername}/>
                       <div className="ml-[380px]">
-                          <UserNameSignUpButton/>
+                          <UserNameSignUpButton username={username}/>
                       </div>
                   </div>
                   <div className="bg-grey h-[584px] w-[300px] absolute top-[200px] left-[885px] rounded-[30px]">

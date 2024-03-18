@@ -18,6 +18,14 @@ body {
   background-color: #EEEEEE;
 }
 
+.text-16 {
+  font-size: 16px;
+}
+
+.text-20 {
+  font-size: 20px;
+}
+
 .text-23 {
   font-size: 23px;
 }
@@ -38,12 +46,25 @@ body {
   font-size: 64px;
 }
 
-.font-regular {
-  font-weight: normal;
+.font-x-light {
+  font-weight: 200;
 }
 
 .font-light {
   font-weight: 300;
+}
+
+.font-regular {
+  font-weight: normal;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+
+.text-purple {
+  color: #7C5FF8;
 }
 
 .text-red {
@@ -53,6 +74,15 @@ body {
 .border-red-alert {
   border-width: 2px;
   border-color: #FF0000;
+}
+
+.hover-bg-black:hover {
+  background-color: #0000007F;
+}
+
+.disable-button {
+  background-color: #F2F2F2;
+  color:  #0000007F;
 }
 
 .text-entry-default-size {

@@ -1,14 +1,12 @@
 import React from "react";
-import {useRouter} from "next/navigation";
 
 interface UserNameSignUpButtonProps {
     username?: string
 }
 export const UserNameSignUpButton:React.FC<UserNameSignUpButtonProps> = ({username}) => {
 
-    const router = useRouter()
     const handleClick = () => {
-        router.push(`/join?username=${username}`)
+        window.open(`/join?username=${username}`, '_blank')
     }
 
     return (
