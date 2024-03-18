@@ -94,7 +94,7 @@ const Join = () => {
                     </div>
                     {/* line separator*/}
                     <div className="absolute top-[280px]">
-                        <button className="bg-white border-2 border-black border-opacity-50 w-[430px] h-[45px] rounded-[50px] font-light text-23">
+                        <button className="bg-white border-2 border-black border-opacity-50 transition duration-300 hover-bg-grey w-[430px] h-[45px] rounded-[50px] font-light text-23">
                             Log in with Google
                         </button>
                     </div>

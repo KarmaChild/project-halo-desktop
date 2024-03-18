@@ -19,7 +19,6 @@ const OnBoard = () => {
                 <div className="absolute top-[35px]">
                     <Two/>
                 </div>
-
             </div>
         </div>
     )

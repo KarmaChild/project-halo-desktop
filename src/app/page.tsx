@@ -11,21 +11,6 @@ export default function Home() {
         window.open(`/join?username=${username}`, '_blank')
     }
 
-    // useEffect(() => {
-    //     const searchIndex = async () => {
-    //         try {
-    //             const { hits } = await algoliaIndex.search(username!)
-    //             setResultExists(hits.length > 0)
-    //         } catch (error) {
-    //             console.error('Error searching index:', error)
-    //         }
-    //     }
-    //
-    //     if (username) {
-    //         searchIndex()
-    //     }
-    // }, [username])
-
     return (
       <div className="overflow-y-auto h-screen">
           <main className="max-w-[1280px] mx-auto border-2 border-amber-950">
@@ -33,13 +18,13 @@ export default function Home() {
                   {/* Navbar */}
                   <div
                       className="z-10 bg-black absolute top-10 flex justify-center items-center h-[75px] w-[510px] rounded-[20px]"
-                      onClick={handleJoinClick}
                   >
 
                       <div className="flex items-center justify-between ">
                           <div
                               className="bg-white absolute flex justify-center items-center h-[40px] w-[140px] rounded-[10px]
                                          transition duration-300 hover-bg-grey cursor-pointer"
+                              onClick={handleJoinClick}
                           >
                               <p className="text-23 font-regular mr-1">Join</p>
                               <Image src="/icons/CTA_Arrow.png"
