@@ -34,6 +34,10 @@ body {
   font-size: 23px;
 }
 
+.text-24 {
+  font-size: 23px;
+}
+
 .text-25 {
   font-size: 25px;
 }
@@ -80,6 +84,11 @@ body {
   border-color: #FF0000;
 }
 
+.border-black {
+  border-width: 2px;
+  border-color: #000000;
+}
+
 .hover-bg-black:hover {
   background-color: #0000007F;
 }
@@ -92,6 +101,11 @@ body {
 .text-entry-default-size {
   width: 430px;
   height: 65px;
+}
+
+.text-entry-large-size {
+  width: 430px;
+  height: 115px;
 }
 
 @layer utilities {

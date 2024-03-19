@@ -28,23 +28,9 @@ export const TextEntryField: React.FC<TextEntryFieldProps> = ({ inputType, place
                  h-[60px] w-full border-none bg-transparent outline-none text-25
                  placeholder-opacity-50 font-[300]"
                    placeholder={placeholderText}
+                   value={value}
                    onChange={(e) => onChange?.(e.target.value)}
             />
-            {/*<div className={`text-entry-field-input-container-${fieldLength}`}>*/}
-            {/*    {*/}
-            {/*        fieldLength === TextEntryFieldType.X_long ?*/}
-            {/*            <textarea*/}
-            {/*                placeholder={placeholderText}*/}
-            {/*                value={value}*/}
-            {/*                onChange={(e) => onChange?.(e.target.value)}*/}
-            {/*            /> :*/}
-            {/*            <input type={inputType}*/}
-            {/*                   placeholder={placeholderText}*/}
-            {/*                   value={value}*/}
-            {/*                   onChange={(e) => onChange?.(e.target.value)}*/}
-            {/*            />*/}
-            {/*    }*/}
-            {/*</div>*/}
         </div>
     )
 }

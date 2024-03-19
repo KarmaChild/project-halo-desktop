@@ -44,6 +44,7 @@ export default function Home() {
                           </p>
                       </div>
                   </div>
+                  {/* Navbar */}
               </div>
               {/* first page */}
               <div className="relative h-screen">
