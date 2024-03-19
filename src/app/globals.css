@@ -18,6 +18,10 @@ body {
   background-color: #EEEEEE;
 }
 
+.hover-text-grey:hover {
+  color: #D9D9D9;
+}
+
 .text-16 {
   font-size: 16px;
 }

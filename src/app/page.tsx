@@ -11,6 +11,10 @@ export default function Home() {
         window.open(`/join?username=${username}`, '_blank')
     }
 
+    const handleLoginClick = () => {
+        window.open(`/login`, '_blank')
+    }
+
     return (
       <div className="overflow-y-auto h-screen">
           <main className="max-w-[1280px] mx-auto border-2 border-amber-950">
@@ -32,7 +36,12 @@ export default function Home() {
                                      height={13}
                                      alt="&#8599"/>
                           </div>
-                          <p className="text-white text-23 font-regular relative ml-36">Login</p>
+                          <p className="text-white text-23 font-regular relative ml-36
+                          cursor-pointer transition duration-300 hover-text-grey"
+                             onClick={handleLoginClick}
+                          >
+                              Login
+                          </p>
                       </div>
                   </div>
               </div>
