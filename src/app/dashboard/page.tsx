@@ -4,6 +4,7 @@ import Image from "next/image";
 import {DashBoardNavbar} from "@/app/dashboard/dashboardNavbar";
 import {useState} from "react";
 import {Info} from "@/app/dashboard/info";
+import {Links} from "@/app/dashboard/links";
 
 const Dashboard = () => {
     const enum MAIN_AREA {
@@ -32,9 +33,7 @@ const Dashboard = () => {
             case MAIN_AREA.LINKS:
                 console.log('LINKS')
                 return (
-                    <div>
-                        <p>LINKS</p>
-                    </div>
+                    <Links/>
                 );
             case MAIN_AREA.SERVICES:
                 console.log('SERVICES')
@@ -84,7 +83,7 @@ const Dashboard = () => {
                 </div>
                 {/* Nav bar */}
                 {/* Main Area*/}
-                <div className="absolute top-[200px]">
+                <div className="absolute top-[185px]">
                     {renderMainPage()}
                 </div>
                 {/* Main Area*/}

@@ -7,6 +7,8 @@ import {TextEntryFieldLarge} from "@/app/components/TextEntryField/TextEntryFiel
 import {DefaultButton} from "@/app/components/Button/DefaultButton";
 
 export const Info = () => {
+
+    const [username, setUsername] = useState<string>('johnny_dogz')
     const [name, setName] = useState<string>('John Doe')
     const [location, setLocation] = useState<string>('Saskatoon')
     const [bio, setBio] = useState<string>('Transforming faces with artistry and passion, one brushstroke at a time 🎨🌟')
@@ -28,8 +30,17 @@ export const Info = () => {
 
               {/* Info fields*/}
               <div className="absolute top-[200px] w-full left-[37px]">
-                  <p className="absolute top-[0px] font-light text-16">Name</p>
+                  <p className="absolute top-[0px] font-light text-16">Username</p>
                   <div className="absolute top-[25px]">
+                      <TextEntryField inputType={TextEntryFieldType.Text}
+                                      fieldLength={TextEntryFieldType.Default}
+                                      value={username}
+                                      onChange={setUsername}
+                      />
+                  </div>
+
+                  <p className="absolute top-[90px] font-light text-16">Name</p>
+                  <div className="absolute top-[115px]">
                       <TextEntryField inputType={TextEntryFieldType.Text}
                                       fieldLength={TextEntryFieldType.Default}
                                       value={name}
@@ -37,8 +48,8 @@ export const Info = () => {
                       />
                   </div>
 
-                  <p className="absolute top-[90px] font-light text-16">Location</p>
-                  <div className="absolute top-[115px]">
+                  <p className="absolute top-[180px] font-light text-16">Location</p>
+                  <div className="absolute top-[205px]">
                       <TextEntryField inputType={TextEntryFieldType.Text}
                                       fieldLength={TextEntryFieldType.Default}
                                       value={location}
@@ -46,13 +57,13 @@ export const Info = () => {
                       />
                   </div>
 
-                  <p className="absolute top-[180px] font-light text-16">Bio</p>
-                  <div className="absolute top-[205px]">
+                  <p className="absolute top-[270px] font-light text-16">Bio</p>
+                  <div className="absolute top-[295px]">
                       <TextEntryFieldLarge value={bio}
                                            onChange={setBio}
                       />
                   </div>
-                  <div className="absolute top-[340px] left-[-37px] w-full flex justify-center">
+                  <div className="absolute top-[430px] left-[-37px] w-full flex justify-center">
                       <DefaultButton text={"Save"}/>
                   </div>
               </div>
