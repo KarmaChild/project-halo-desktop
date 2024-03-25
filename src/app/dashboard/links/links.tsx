@@ -1,43 +1,15 @@
-import React, {useState} from "react";
-import {DefaultButton} from "@/app/components/Button/DefaultButton";
-import Image from "next/image";
-import {AddLinkForm} from "@/app/dashboard/links/addLinkForm";
-
-
-interface LinkPreviewProps {
-    title: string
-    link: string
-}
-
-const LinkPreview:React.FC<LinkPreviewProps> = ({ title, link }) => {
-    return (
-        <div className="relative w-[430px] h-[75px] bg-grey rounded-[15px] mb-2.5">
-            <div className="absolute top-[24px] left-[15px]">
-                <Image src="/icons/grip.png"
-                       width={28}
-                       height={28}
-                       alt="&#8599"/>
-            </div>
-
-            <div className="absolute top-[10px] left-[60px]">
-                <p className="text-20 font-regular">{title}</p>
-            </div>
-
-            <div className="absolute top-[35px] left-[60px]">
-                <p className="text-20 font-light">{link}</p>
-            </div>
-
-        </div>
-    )
-}
+import React, {useState} from "react"
+import {DefaultButton} from "@/app/components/Button/DefaultButton"
+import {AddLinkForm} from "@/app/dashboard/links/addLinkForm"
+import {LinkPreview} from "@/app/dashboard/links/linkPreivew"
 
 
 export const Links = () => {
-    const [showForm, setShowForm] = useState(false);
+    const [showForm, setShowForm] = useState(false)
 
     const handleButtonClick = () => {
-        setShowForm(true);
-    };
+        setShowForm(true)
+    }
 
     return (
         <div className="relative">
@@ -62,8 +34,6 @@ export const Links = () => {
                     <LinkPreview title={"My Tiktok"} link={"https://www.instagram.com/tall.cody"}/>
                 </div>
                 {/* Link previews*/}
-
-
 
             </div>
         </div>
