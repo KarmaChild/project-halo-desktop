@@ -4,7 +4,7 @@ import Image from "next/image";
 import {DashBoardNavbar} from "@/app/dashboard/dashboardNavbar";
 import {useState} from "react";
 import {Info} from "@/app/dashboard/info";
-import {Links} from "@/app/dashboard/links";
+import {Links} from "@/app/dashboard/links/links";
 
 const Dashboard = () => {
     const enum MAIN_AREA {
