@@ -34,7 +34,6 @@ export const Links = () => {
                     <LinkPreview title={"My Tiktok"} link={"https://www.instagram.com/tall.cody"}/>
                 </div>
                 {/* Link previews*/}
-
             </div>
         </div>
     )

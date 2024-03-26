@@ -5,6 +5,7 @@ import {DashBoardNavbar} from "@/app/dashboard/dashboardNavbar";
 import {useState} from "react";
 import {Info} from "@/app/dashboard/info";
 import {Links} from "@/app/dashboard/links/links";
+import {Services} from "@/app/dashboard/services/services";
 
 const Dashboard = () => {
     const enum MAIN_AREA {
@@ -38,9 +39,7 @@ const Dashboard = () => {
             case MAIN_AREA.SERVICES:
                 console.log('SERVICES')
                 return (
-                    <div>
-                        <p>SERVICES</p>
-                    </div>
+                    <Services/>
                 );
             default:
                 return null;
