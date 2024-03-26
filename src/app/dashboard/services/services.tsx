@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import {AddLinkForm} from "@/app/dashboard/links/addLinkForm";
 import {DefaultButton} from "@/app/components/Button/DefaultButton";
 import {ServicePreview} from "@/app/dashboard/services/servicePreview";
+import {AddServiceForm} from "@/app/dashboard/services/addServiceForm";
 
 
 export const Services = () => {
@@ -9,6 +9,10 @@ export const Services = () => {
 
     const handleButtonClick = () => {
         setShowForm(true)
+    }
+
+    const handleFormCLose = () => {
+        setShowForm(false)
     }
 
     return (
@@ -19,7 +23,7 @@ export const Services = () => {
                 <div className="absolute top-[0px] w-full flex justify-center">
                     {showForm ? (
                         // Render form here
-                        <AddLinkForm/>
+                        <AddServiceForm onClose={handleFormCLose}/>
                     ) : (
                         // Render button here
                         <DefaultButton text={"Add a new Service"} onClick={handleButtonClick}/>
@@ -27,9 +31,9 @@ export const Services = () => {
                 </div>
                 {/* Add link button*/}
 
-                {/* Link previews*/}
+                {/* Services previews*/}
                 <div
-                    className={`absolute top-[${showForm ? 220 : 75}px]  w-full flex flex-col items-center justify-center`}>
+                    className={`absolute top-[${showForm ? 280 : 75}px]  w-full flex flex-col items-center justify-center`}>
                     <ServicePreview serviceName={"Full Acrylic Set"}
                                     description={"No extra charge for design or length!"}
                                     price={50}

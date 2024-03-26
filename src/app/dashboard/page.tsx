@@ -1,13 +1,19 @@
 'use client'
 
-import Image from "next/image";
-import {DashBoardNavbar} from "@/app/dashboard/dashboardNavbar";
-import {useState} from "react";
-import {Info} from "@/app/dashboard/info";
-import {Links} from "@/app/dashboard/links/links";
-import {Services} from "@/app/dashboard/services/services";
+import Image from "next/image"
+import {DashBoardNavbar} from "@/app/dashboard/dashboardNavbar"
+import {useState} from "react"
+import {Info} from "@/app/dashboard/info/info"
+import {Links} from "@/app/dashboard/links/links"
+import {Services} from "@/app/dashboard/services/services"
 
 const Dashboard = () => {
+
+    const handleYourPageClick = () => {
+        const username = 'johnydogz'
+        window.open(`/${username}`, '_blank')
+    }
+
     const enum MAIN_AREA {
         INFO = 1,
         GALLERY = 2,
@@ -15,7 +21,7 @@ const Dashboard = () => {
         SERVICES = 4
     }
 
-    const [selectedNavItem, setSelectedNavItem] = useState(MAIN_AREA.INFO);
+    const [selectedNavItem, setSelectedNavItem] = useState(MAIN_AREA.INFO)
 
     const renderMainPage = () => {
         switch (selectedNavItem) {
@@ -23,28 +29,28 @@ const Dashboard = () => {
                 console.log('INFO')
                 return (
                     <Info/>
-                );
+                )
             case MAIN_AREA.GALLERY:
                 console.log('GALLERY')
                 return (
                     <div>
                         <p>GALLERY</p>
                     </div>
-                );
+                )
             case MAIN_AREA.LINKS:
                 console.log('LINKS')
                 return (
                     <Links/>
-                );
+                )
             case MAIN_AREA.SERVICES:
                 console.log('SERVICES')
                 return (
                     <Services/>
-                );
+                )
             default:
-                return null;
+                return null
         }
-    };
+    }
 
     return (
         <div className="relative">
@@ -58,7 +64,7 @@ const Dashboard = () => {
                         <div
                             className="bg-white absolute flex justify-center items-center h-[40px] w-[142px] rounded-[10px]
                                              transition duration-300 hover-bg-grey cursor-pointer"
-                            // onClick={handleJoinClick}
+                            onClick={handleYourPageClick}
                         >
                             <p className="text-23 font-regular mr-1">Your page</p>
                             <Image src="/icons/CTA_Arrow.png"
@@ -81,6 +87,7 @@ const Dashboard = () => {
                     <DashBoardNavbar index={selectedNavItem} onChange={setSelectedNavItem}/>
                 </div>
                 {/* Nav bar */}
+
                 {/* Main Area*/}
                 <div className="absolute top-[185px]">
                     {renderMainPage()}

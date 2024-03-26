@@ -13,7 +13,6 @@ export const Info = () => {
     const [location, setLocation] = useState<string>('Saskatoon')
     const [bio, setBio] = useState<string>('Transforming faces with artistry and passion, one brushstroke at a time 🎨🌟')
 
-
     return (
       <div className="relative">
           <div className="absolute w-[510px] h-[613px]">

@@ -11,6 +11,10 @@ export const Links = () => {
         setShowForm(true)
     }
 
+    const handleFormCLose = () => {
+        setShowForm(false)
+    }
+
     return (
         <div className="relative">
             <div className="absolute w-[510px] h-[613px]">
@@ -18,10 +22,8 @@ export const Links = () => {
                 {/* Add link button*/}
                 <div className="absolute top-[0px] w-full flex justify-center">
                     {showForm ? (
-                        // Render form here
-                        <AddLinkForm/>
+                        <AddLinkForm onClose={handleFormCLose}/>
                     ) : (
-                        // Render button here
                         <DefaultButton text={"Add a link"} onClick={handleButtonClick} />
                     )}
                 </div>
