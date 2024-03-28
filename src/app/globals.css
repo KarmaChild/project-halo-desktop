@@ -122,6 +122,22 @@ body {
   height: 115px;
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: 100px 0;
+  }
+}
+
+.loading-animation {
+  animation: shimmer 3s infinite ease-in-out;
+  background-color: #ddd;  /* Adjust as needed */
+  background-image: linear-gradient(to right, #ddd 0%, #ececec 20%, #ddd 40%, #ececec 60%, #ddd 80%, #ececec 100%);  /* Lighter shade for shimmer */
+  background-size: 200px 100%;  /* Must be same size as animation */
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

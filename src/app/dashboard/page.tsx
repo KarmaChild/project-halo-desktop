@@ -26,24 +26,20 @@ const Dashboard = () => {
     const renderMainPage = () => {
         switch (selectedNavItem) {
             case MAIN_AREA.INFO:
-                console.log('INFO')
                 return (
                     <Info/>
                 )
             case MAIN_AREA.GALLERY:
-                console.log('GALLERY')
                 return (
                     <div>
                         <p>GALLERY</p>
                     </div>
                 )
             case MAIN_AREA.LINKS:
-                console.log('LINKS')
                 return (
                     <Links/>
                 )
             case MAIN_AREA.SERVICES:
-                console.log('SERVICES')
                 return (
                     <Services/>
                 )

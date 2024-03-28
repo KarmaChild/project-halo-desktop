@@ -3,7 +3,7 @@ import React from "react";
 interface ServiceProps {
     serviceName: string
     description: string
-    price: number | 'Free'
+    price: number
 }
 
 export const Service:React.FC<ServiceProps> = ({ serviceName, description, price}) => {
@@ -17,7 +17,7 @@ export const Service:React.FC<ServiceProps> = ({ serviceName, description, price
                 <p className="text-16 font-light">{description}</p>
             </div>
             <div className="absolute top-[15px] left-[355px]">
-                <p className="text-20 font-regular">{price === "Free" ? price : `$${price}`}</p>
+                <p className="text-20 font-regular">{price === 0 ? "Free" : `$${price}`}</p>
             </div>
         </div>
     )

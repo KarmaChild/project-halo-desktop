@@ -1,8 +1,11 @@
 import React from "react"
 import {Service} from "@/app/[username]/services/service";
 
+interface ServicesProps {
+    services: { serviceName: string, description: string, price: number }[]
+}
 
-export const Services = () => {
+export const Services:React.FC<ServicesProps> = ({services}) => {
 
     return (
         <div className="relative">
@@ -10,18 +13,14 @@ export const Services = () => {
 
                 {/* Services */}
                 <div className="absolute w-full flex flex-col items-center justify-center">
-                    <Service serviceName={"Full Acrylic Set"}
-                                    description={"No extra charge for design or length!"}
-                                    price={50}
-                    />
-                    <Service serviceName={"Acrylic Set Fill"}
-                                    description={"No extra charge for design or length!"}
-                                    price={15}
-                    />
-                    <Service serviceName={"All decals free!"}
-                                    description={"No extra charge for design or length!"}
-                                    price={"Free"}
-                    />
+                    {services.map((service, index) => (
+                        <Service
+                            key={index}
+                            serviceName={service.serviceName}
+                            description={service.description}
+                            price={service.price}
+                        />
+                    ))}
                 </div>
                 {/* Services */}
 
