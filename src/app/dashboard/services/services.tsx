@@ -22,10 +22,8 @@ export const Services = () => {
                 {/* Add link button*/}
                 <div className="absolute top-[0px] w-full flex justify-center">
                     {showForm ? (
-                        // Render form here
                         <AddServiceForm onClose={handleFormCLose}/>
                     ) : (
-                        // Render button here
                         <DefaultButton text={"Add a new Service"} onClick={handleButtonClick}/>
                     )}
                 </div>

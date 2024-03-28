@@ -54,6 +54,17 @@ body {
   font-size: 64px;
 }
 
+.text-border {
+  display: inline-block;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #000;
+  padding-left: 0.5rem; /* Equivalent to 2 * 0.25rem */
+  padding-right: 0.5rem; /* Equivalent to 2 * 0.25rem */
+  line-height: 1rem; /* Equivalent to 16px */
+
+}
+
 .font-x-light {
   font-weight: 200;
 }

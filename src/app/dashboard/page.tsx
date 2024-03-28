@@ -54,7 +54,7 @@ const Dashboard = () => {
 
     return (
         <div className="relative">
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-[510px] h-[1420px] border-black">
+            <div className="absolute left-1/2 transform -translate-x-1/2 w-[510px] h-[1420px]">
 
                 {/* Util bar */}
                 <div
