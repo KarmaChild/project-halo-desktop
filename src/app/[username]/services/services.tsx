@@ -13,7 +13,7 @@ export const Services:React.FC<ServicesProps> = ({services}) => {
 
                 {/* Services */}
                 <div className="absolute w-full flex flex-col items-center justify-center">
-                    {services.map((service, index) => (
+                    {services && services.length > 0 && services.map((service, index) => (
                         <Service
                             key={index}
                             serviceName={service.serviceName}

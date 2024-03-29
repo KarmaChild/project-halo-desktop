@@ -2,12 +2,41 @@
 
 import Image from "next/image"
 import {DashBoardNavbar} from "@/app/dashboard/dashboardNavbar"
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import {Info} from "@/app/dashboard/info/info"
 import {Links} from "@/app/dashboard/links/links"
 import {Services} from "@/app/dashboard/services/services"
+import {getUserData} from "@/api/get-user-data";
+
+interface UserData {
+    username: string
+    name: string
+    bio: string
+    links: { title: string, url: string }[]
+    services: { serviceName: string, description: string, price: number }[]
+    location: string
+}
 
 const Dashboard = () => {
+    const username = 'johnydogz'
+    const [userData, setUserData] = useState<UserData | null>(null)
+    const [loading, setLoading] = useState<boolean>(true)
+
+    useEffect(() => {
+        if (username) {
+            getUserData(username)
+                .then((response: any) => {
+                    const userData = response.userData
+                    setUserData(userData)
+                    console.log(userData)
+                })
+                .catch(error => {
+                    console.error("Error fetching barber information:", error)
+                }).finally(() => {
+                setLoading(false)
+            })
+        }
+    }, [username])
 
     const handleYourPageClick = () => {
         const username = 'johnydogz'
@@ -27,7 +56,7 @@ const Dashboard = () => {
         switch (selectedNavItem) {
             case MAIN_AREA.INFO:
                 return (
-                    <Info/>
+                    <Info username={userData?.username || ""} name={userData?.name || ""} bio={userData?.bio || ""} location={userData?.location || ""}/>
                 )
             case MAIN_AREA.GALLERY:
                 return (

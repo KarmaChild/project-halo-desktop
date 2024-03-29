@@ -13,7 +13,7 @@ export const Links:React.FC<LinksProps> = ({links}) => {
 
                 {/* Links*/}
                 <div className="absolute w-full flex flex-col items-center justify-center">
-                    {links.map((link, index) => (
+                    {links && links.length > 0 && links.map((link, index) => (
                         <Link key={index} title={link.title} url={link.url} />
                     ))}
                 </div>

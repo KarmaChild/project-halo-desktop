@@ -2,16 +2,32 @@
 
 import Image from "next/image";
 import {TextEntryField, TextEntryFieldType} from "@/app/components/TextEntryField/TextEntryField";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {TextEntryFieldLarge} from "@/app/components/TextEntryField/TextEntryFieldLarge";
 import {DefaultButton} from "@/app/components/Button/DefaultButton";
+import {updateInfo} from "@/api/update-info";
 
-export const Info = () => {
+interface InfoProps {
+    username: string
+    name: string
+    location: string
+    bio: string
+}
+export const Info:React.FC<InfoProps> = ({username, name, location, bio}) => {
 
-    const [username, setUsername] = useState<string>('johnny_dogz')
-    const [name, setName] = useState<string>('John Doe')
-    const [location, setLocation] = useState<string>('Saskatoon')
-    const [bio, setBio] = useState<string>('Transforming faces with artistry and passion, one brushstroke at a time 🎨🌟')
+    const [_username, setUsername] = useState<string>(username)
+    const [_name, setName] = useState<string>(name)
+    const [_location, setLocation] = useState<string>(location)
+    const [_bio, setBio] = useState<string>(bio)
+    const [changeSet, setChangeSet] = useState<boolean>(false)
+
+    useEffect(() => {
+        setChangeSet(true)
+    }, [_username, _name, _location, _bio]);
+
+    const handleSave = async () => {
+      await updateInfo(_username, _name, _location, _bio)
+    }
 
     return (
       <div className="relative">
@@ -33,7 +49,7 @@ export const Info = () => {
                   <div className="absolute top-[25px]">
                       <TextEntryField inputType={TextEntryFieldType.Text}
                                       fieldLength={TextEntryFieldType.Default}
-                                      value={username}
+                                      value={_username}
                                       onChange={setUsername}
                       />
                   </div>
@@ -42,7 +58,7 @@ export const Info = () => {
                   <div className="absolute top-[115px]">
                       <TextEntryField inputType={TextEntryFieldType.Text}
                                       fieldLength={TextEntryFieldType.Default}
-                                      value={name}
+                                      value={_name}
                                       onChange={setName}
                       />
                   </div>
@@ -51,19 +67,22 @@ export const Info = () => {
                   <div className="absolute top-[205px]">
                       <TextEntryField inputType={TextEntryFieldType.Text}
                                       fieldLength={TextEntryFieldType.Default}
-                                      value={location}
+                                      value={_location}
                                       onChange={setLocation}
                       />
                   </div>
 
                   <p className="absolute top-[270px] font-light text-16">Bio</p>
                   <div className="absolute top-[295px]">
-                      <TextEntryFieldLarge value={bio}
+                      <TextEntryFieldLarge value={_bio}
                                            onChange={setBio}
                       />
                   </div>
                   <div className="absolute top-[430px] left-[-37px] w-full flex justify-center">
-                      <DefaultButton text={"Save"}/>
+                      <DefaultButton text={"Save"}
+                                     disabled={changeSet}
+                                     onClick={handleSave}
+                      />
                   </div>
               </div>
               {/* Info fields*/}
