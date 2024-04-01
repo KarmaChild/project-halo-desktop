@@ -3,8 +3,11 @@ import {DefaultButton} from "@/app/components/Button/DefaultButton";
 import {ServicePreview} from "@/app/dashboard/services/servicePreview";
 import {AddServiceForm} from "@/app/dashboard/services/addServiceForm";
 
+interface ServicesProps {
+    services: { serviceName: string, description: string, price: number }[]
+}
 
-export const Services = () => {
+export const Services:React.FC<ServicesProps> = ({services}) => {
     const [showForm, setShowForm] = useState(false)
 
     const handleButtonClick = () => {
@@ -32,18 +35,14 @@ export const Services = () => {
                 {/* Services previews*/}
                 <div
                     className={`absolute top-[${showForm ? 280 : 75}px]  w-full flex flex-col items-center justify-center`}>
-                    <ServicePreview serviceName={"Full Acrylic Set"}
-                                    description={"No extra charge for design or length!"}
-                                    price={50}
-                    />
-                    <ServicePreview serviceName={"Acrylic Set Fill"}
-                                    description={"No extra charge for design or length!"}
-                                    price={15}
-                    />
-                    <ServicePreview serviceName={"All decals free!"}
-                                    description={"No extra charge for design or length!"}
-                                    price={"Free"}
-                    />
+                    {services && services.length > 0 && services.map((service, index) => (
+                        <ServicePreview
+                            key={index}
+                            serviceName={service.serviceName}
+                            description={service.description}
+                            price={service.price}
+                        />
+                    ))}
                 </div>
                 {/* Link previews*/}
 

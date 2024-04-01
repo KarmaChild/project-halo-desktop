@@ -18,7 +18,7 @@ export const ServicePreview:React.FC<ServicePreviewProps>  = ({ serviceName, des
           </div>
 
           <div className="absolute top-[10px] left-[370px]">
-              <p className="text-20 font-regular">{price === "Free" ? price : `$${price}`}</p>
+              <p className="text-20 font-regular">{price === 0 ? "Free" : `$${price}`}</p>
           </div>
 
           <div className="absolute top-[10px] left-[60px]">

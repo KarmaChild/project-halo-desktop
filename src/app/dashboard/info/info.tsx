@@ -20,13 +20,23 @@ export const Info:React.FC<InfoProps> = ({username, name, location, bio}) => {
     const [_location, setLocation] = useState<string>(location)
     const [_bio, setBio] = useState<string>(bio)
     const [changeSet, setChangeSet] = useState<boolean>(false)
+    //const [disabled, setDisabled] = useState<boolean>(false)
 
     useEffect(() => {
-        setChangeSet(true)
+        console.log('change ', [_username, _name, _location, _bio])
+        const hasChanges = _username !== username || _name !== name || _location !== location || _bio !== bio;
+        setChangeSet(hasChanges);
     }, [_username, _name, _location, _bio]);
 
     const handleSave = async () => {
-      await updateInfo(_username, _name, _location, _bio)
+      try {
+          await updateInfo(_username, _name, _location, _bio)
+
+      } catch (err: any) {
+          console.log(err)
+      } finally {
+
+      }
     }
 
     return (
@@ -80,7 +90,7 @@ export const Info:React.FC<InfoProps> = ({username, name, location, bio}) => {
                   </div>
                   <div className="absolute top-[430px] left-[-37px] w-full flex justify-center">
                       <DefaultButton text={"Save"}
-                                     disabled={changeSet}
+                                     disabled={!changeSet}
                                      onClick={handleSave}
                       />
                   </div>

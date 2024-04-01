@@ -1,5 +1,5 @@
 const API_ENDPOINT: string = "updateInfo"
-export const updateInfo = async (username: string, name, location, bio) => {
+export const updateInfo = async (username: string, name: string, location: string, bio: string) => {
     return new Promise(async (resolve, reject) => {
         try {
             const body = {

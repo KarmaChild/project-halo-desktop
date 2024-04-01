@@ -3,8 +3,11 @@ import {DefaultButton} from "@/app/components/Button/DefaultButton"
 import {AddLinkForm} from "@/app/dashboard/links/addLinkForm"
 import {LinkPreview} from "@/app/dashboard/links/linkPreivew"
 
+interface LinksProps {
+    links: { title: string, url: string }[]
+}
 
-export const Links = () => {
+export const Links:React.FC<LinksProps> = ({links}) => {
     const [showForm, setShowForm] = useState(false)
 
     const handleButtonClick = () => {
@@ -31,9 +34,9 @@ export const Links = () => {
 
                 {/* Link previews*/}
                 <div className={`absolute top-[${showForm ? 220 : 75}px]  w-full flex flex-col items-center justify-center`}>
-                    <LinkPreview title={"My Instagram"} link={"https://www.instagram.com/tall.cody"}/>
-                    <LinkPreview title={"My Facebook"} link={"https://www.instagram.com/tall.cody"}/>
-                    <LinkPreview title={"My Tiktok"} link={"https://www.instagram.com/tall.cody"}/>
+                    {links && links.length > 0 && links.map((link, index) => (
+                        <LinkPreview key={index} title={link.title} link={link.url}/>
+                    ))}
                 </div>
                 {/* Link previews*/}
             </div>

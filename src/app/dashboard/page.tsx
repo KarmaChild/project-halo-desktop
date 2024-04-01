@@ -2,11 +2,12 @@
 
 import Image from "next/image"
 import {DashBoardNavbar} from "@/app/dashboard/dashboardNavbar"
-import {useEffect, useState} from "react"
+import React, {useEffect, useState} from "react"
 import {Info} from "@/app/dashboard/info/info"
 import {Links} from "@/app/dashboard/links/links"
 import {Services} from "@/app/dashboard/services/services"
 import {getUserData} from "@/api/get-user-data";
+import Loading from "@/app/[username]/loading";
 
 interface UserData {
     username: string
@@ -66,11 +67,11 @@ const Dashboard = () => {
                 )
             case MAIN_AREA.LINKS:
                 return (
-                    <Links/>
+                    <Links links={userData!.links}/>
                 )
             case MAIN_AREA.SERVICES:
                 return (
-                    <Services/>
+                    <Services services={userData!.services}/>
                 )
             default:
                 return null
@@ -79,46 +80,52 @@ const Dashboard = () => {
 
     return (
         <div className="relative">
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-[510px] h-[1420px]">
+            {
+                loading ? (
+                    <Loading/>
+                ) : (
+                    <div className="absolute left-1/2 transform -translate-x-1/2 w-[510px] h-[1420px]">
 
-                {/* Util bar */}
-                <div
-                    className="z-10 bg-black absolute top-[20px] flex justify-center items-center h-[75px] w-[510px] rounded-[20px]"
-                >
-                    <div className="flex items-center justify-between">
+                        {/* Util bar */}
                         <div
-                            className="bg-white absolute flex justify-center items-center h-[40px] w-[142px] rounded-[10px]
+                            className="z-10 bg-black absolute top-[20px] flex justify-center items-center h-[75px] w-[510px] rounded-[20px]"
+                        >
+                            <div className="flex items-center justify-between">
+                                <div
+                                    className="bg-white absolute flex justify-center items-center h-[40px] w-[142px] rounded-[10px]
                                              transition duration-300 hover-bg-grey cursor-pointer"
-                            onClick={handleYourPageClick}
-                        >
-                            <p className="text-23 font-regular mr-1">Your page</p>
-                            <Image src="/icons/CTA_Arrow.png"
-                                   width={13}
-                                   height={13}
-                                   alt="&#8599"/>
-                        </div>
-                        <p className="text-white text-23 font-regular relative ml-36
+                                    onClick={handleYourPageClick}
+                                >
+                                    <p className="text-23 font-regular mr-1">Your page</p>
+                                    <Image src="/icons/CTA_Arrow.png"
+                                           width={13}
+                                           height={13}
+                                           alt="&#8599"/>
+                                </div>
+                                <p className="text-white text-23 font-regular relative ml-36
                               cursor-pointer transition duration-300 hover-text-grey"
-                            // onClick={handleLoginClick}
-                        >
-                            Logout
-                        </p>
+                                    // onClick={handleLoginClick}
+                                >
+                                    Logout
+                                </p>
+                            </div>
+                        </div>
+                        {/* Util bar */}
+
+                        {/* Nav bar */}
+                        <div className="absolute top-[120px] w-full flex justify-center">
+                            <DashBoardNavbar index={selectedNavItem} onChange={setSelectedNavItem}/>
+                        </div>
+                        {/* Nav bar */}
+
+                        {/* Main Area*/}
+                        <div className="absolute top-[185px]">
+                            {renderMainPage()}
+                        </div>
+                        {/* Main Area*/}
                     </div>
-                </div>
-                {/* Util bar */}
-
-                {/* Nav bar */}
-                <div className="absolute top-[120px] w-full flex justify-center">
-                    <DashBoardNavbar index={selectedNavItem} onChange={setSelectedNavItem}/>
-                </div>
-                {/* Nav bar */}
-
-                {/* Main Area*/}
-                <div className="absolute top-[185px]">
-                    {renderMainPage()}
-                </div>
-                {/* Main Area*/}
-            </div>
+                )
+            }
         </div>
     )
 }
