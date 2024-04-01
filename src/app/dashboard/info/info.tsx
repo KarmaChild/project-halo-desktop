@@ -1,12 +1,13 @@
 'use client'
 
-import Image from "next/image";
-import {TextEntryField, TextEntryFieldType} from "@/app/components/TextEntryField/TextEntryField";
-import React, {useEffect, useState} from "react";
-import {TextEntryFieldLarge} from "@/app/components/TextEntryField/TextEntryFieldLarge";
-import {DefaultButton} from "@/app/components/Button/DefaultButton";
-import {updateInfo} from "@/api/update-info";
-import algoliasearch from "algoliasearch";
+import Image from "next/image"
+import {TextEntryField, TextEntryFieldType} from "@/app/components/TextEntryField/TextEntryField"
+import React, {useEffect, useState} from "react"
+import {TextEntryFieldLarge} from "@/app/components/TextEntryField/TextEntryFieldLarge"
+import {DefaultButton} from "@/app/components/Button/DefaultButton"
+import {updateInfo} from "@/api/update-info"
+import algoliasearch from "algoliasearch"
+import {DialogType, PopupDialog} from "@/app/components/PopupDialog/PopupDialog";
 
 interface InfoProps {
     username: string
@@ -22,15 +23,15 @@ export const Info:React.FC<InfoProps> = ({username, name, location, bio}) => {
     const [_bio, setBio] = useState<string>(bio)
     const [changeSet, setChangeSet] = useState<boolean>(false)
     const [usernameExists, setUsernameExists] = useState<boolean>(false)
-    //const [disabled, setDisabled] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
 
     const algoliaClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID!, process.env.NEXT_PUBLIC_ALGOLIA_API_KEY!)
     const algoliaIndex = algoliaClient.initIndex('dev_rmc-barbers')
 
     useEffect(() => {
         console.log('change ', [_username, _name, _location, _bio])
-        const hasChanges = _username !== username || _name !== name || _location !== location || _bio !== bio;
-        setChangeSet(hasChanges);
+        const hasChanges = _username !== username || _name !== name || _location !== location || _bio !== bio
+        setChangeSet(hasChanges && !usernameExists)
     }, [_username, _name, _location, _bio])
 
     useEffect(() => {
@@ -54,16 +55,27 @@ export const Info:React.FC<InfoProps> = ({username, name, location, bio}) => {
     const handleSave = async () => {
       try {
           await updateInfo(_username, _name, _location, _bio)
-
+          setLoading(true)
       } catch (err: any) {
           console.log(err)
       } finally {
-
+          setLoading(false)
       }
     }
 
+
+
     return (
       <div className="relative">
+          {loading ? (
+              <PopupDialog
+                  dialogText="Saved changes"
+                  dialogType={DialogType.Success}
+                  isOpen={loading}
+                  onClose={()=>{}}
+              />
+          ) : (<></>)
+          }
           <div className="absolute w-[510px] h-[613px]">
 
               {/* Profile pic*/}
