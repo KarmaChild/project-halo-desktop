@@ -6,6 +6,7 @@ import React, {useEffect, useState} from "react";
 import {TextEntryFieldLarge} from "@/app/components/TextEntryField/TextEntryFieldLarge";
 import {DefaultButton} from "@/app/components/Button/DefaultButton";
 import {updateInfo} from "@/api/update-info";
+import algoliasearch from "algoliasearch";
 
 interface InfoProps {
     username: string
@@ -20,13 +21,35 @@ export const Info:React.FC<InfoProps> = ({username, name, location, bio}) => {
     const [_location, setLocation] = useState<string>(location)
     const [_bio, setBio] = useState<string>(bio)
     const [changeSet, setChangeSet] = useState<boolean>(false)
+    const [usernameExists, setUsernameExists] = useState<boolean>(false)
     //const [disabled, setDisabled] = useState<boolean>(false)
+
+    const algoliaClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID!, process.env.NEXT_PUBLIC_ALGOLIA_API_KEY!)
+    const algoliaIndex = algoliaClient.initIndex('dev_rmc-barbers')
 
     useEffect(() => {
         console.log('change ', [_username, _name, _location, _bio])
         const hasChanges = _username !== username || _name !== name || _location !== location || _bio !== bio;
         setChangeSet(hasChanges);
-    }, [_username, _name, _location, _bio]);
+    }, [_username, _name, _location, _bio])
+
+    useEffect(() => {
+        const searchIndex = async () => {
+            try {
+                const { hits } = await algoliaIndex.search(_username!)
+                setUsernameExists(hits.length > 0)
+                console.log('search')
+            } catch (error) {
+                console.error('Error searching index:', error)
+            }
+        }
+
+        if (_username) {
+            searchIndex()
+        } else {
+            setUsernameExists(false)
+        }
+    }, [_username])
 
     const handleSave = async () => {
       try {
@@ -55,12 +78,24 @@ export const Info:React.FC<InfoProps> = ({username, name, location, bio}) => {
 
               {/* Info fields*/}
               <div className="absolute top-[200px] w-full left-[37px]">
-                  <p className="absolute top-[0px] font-light text-16">Username</p>
+                  {
+                      usernameExists ? (
+                          <>
+                              <p className="absolute top-[-10px] font-light text-16">Username</p>
+                              <p className="absolute top-[5px] font-light text-sm text-red">This username already exists</p>
+                          </>) : (
+                          <>
+                          <p className="absolute top-[0px] font-light text-16">Username</p>
+                          </>
+                      )
+                  }
+
                   <div className="absolute top-[25px]">
                       <TextEntryField inputType={TextEntryFieldType.Text}
                                       fieldLength={TextEntryFieldType.Default}
                                       value={_username}
                                       onChange={setUsername}
+                                      alert={usernameExists}
                       />
                   </div>
 
