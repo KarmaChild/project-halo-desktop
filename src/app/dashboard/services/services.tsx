@@ -4,10 +4,11 @@ import {ServicePreview} from "@/app/dashboard/services/servicePreview";
 import {AddServiceForm} from "@/app/dashboard/services/addServiceForm";
 
 interface ServicesProps {
+    username: string
     services: { serviceName: string, description: string, price: number }[]
 }
 
-export const Services:React.FC<ServicesProps> = ({services}) => {
+export const Services:React.FC<ServicesProps> = ({username, services}) => {
     const [showForm, setShowForm] = useState(false)
 
     const handleButtonClick = () => {
@@ -25,7 +26,7 @@ export const Services:React.FC<ServicesProps> = ({services}) => {
                 {/* Add link button*/}
                 <div className="absolute top-[0px] w-full flex justify-center">
                     {showForm ? (
-                        <AddServiceForm onClose={handleFormCLose}/>
+                        <AddServiceForm username={username} onClose={handleFormCLose}/>
                     ) : (
                         <DefaultButton text={"Add a new Service"} onClick={handleButtonClick}/>
                     )}

@@ -66,11 +66,11 @@ const Dashboard = () => {
                 )
             case MAIN_AREA.LINKS:
                 return (
-                    <Links links={userData!.links}/>
+                    <Links username={userData!.username} links={userData!.links}/>
                 )
             case MAIN_AREA.SERVICES:
                 return (
-                    <Services services={userData!.services}/>
+                    <Services username={userData!.username} services={userData!.services}/>
                 )
             default:
                 return null

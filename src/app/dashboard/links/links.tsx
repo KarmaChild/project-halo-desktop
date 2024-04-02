@@ -4,10 +4,11 @@ import {AddLinkForm} from "@/app/dashboard/links/addLinkForm"
 import {LinkPreview} from "@/app/dashboard/links/linkPreivew"
 
 interface LinksProps {
+    username: string
     links: { title: string, url: string }[]
 }
 
-export const Links:React.FC<LinksProps> = ({links}) => {
+export const Links:React.FC<LinksProps> = ({username, links}) => {
     const [showForm, setShowForm] = useState(false)
 
     const handleButtonClick = () => {
@@ -25,7 +26,7 @@ export const Links:React.FC<LinksProps> = ({links}) => {
                 {/* Add link button*/}
                 <div className="absolute top-[0px] w-full flex justify-center">
                     {showForm ? (
-                        <AddLinkForm onClose={handleFormCLose}/>
+                        <AddLinkForm username={username} onClose={handleFormCLose}/>
                     ) : (
                         <DefaultButton text={"Add a link"} onClick={handleButtonClick} />
                     )}
