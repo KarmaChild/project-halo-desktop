@@ -93,7 +93,7 @@ const Dashboard = () => {
                             <div className="flex items-center justify-between">
                                 <div
                                     className="bg-white absolute flex justify-center items-center h-[40px] w-[142px] rounded-[10px]
-                                             transition duration-300 hover-bg-grey cursor-pointer"
+                                             transition duration-300 hover-bg-grey cursor-pointer "
                                     onClick={handleYourPageClick}
                                 >
                                     <p className="text-23 font-regular mr-1">Your page</p>

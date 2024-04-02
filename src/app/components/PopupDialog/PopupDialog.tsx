@@ -10,35 +10,41 @@ export enum DialogType {
 }
 
 export interface PopupDialogProps {
-    dialogType: DialogType;
-    dialogText: string;
-    isOpen: boolean;
-    onClose: () => void;
-    onYes?: () => void;
-    onNo?: () => void;
-    choice1Text?: string;
+    dialogType: DialogType
+    dialogText: string
+    isOpen: boolean
+    onClose: () => void
+    onYes?: () => void
+    onNo?: () => void
+    choice1Text?: string
     choice2Text?: string
-    onChoice1?: () => void;
-    onChoice2?: ()=> void;
+    onChoice1?: () => void
+    onChoice2?: ()=> void
 }
 
 const Backdrop: React.FC<{ onClick: () => void }> = ({ onClick }) => (
-    <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 z-50" onClick={onClick}></div>
-);
+    <>
+        <div className="fixed top-0 left-[-100vw] w-[100vw] h-[120vh] bg-gray-800 bg-opacity-50 z-50"
+             onClick={onClick}></div>
+        <div className="fixed top-0 left-0 w-[75vw] h-[120vh] bg-gray-800 bg-opacity-50 z-50"
+             onClick={onClick}></div>
+    </>
 
-const SuccessDialog: React.FC<{ dialogText: string; onClose: () => void }> = ({ dialogText, onClose }) => (
-    <dialog open className="custom-dialog success-dialog">
-        <p>{dialogText}</p>
-        <button onClick={onClose}>Close</button>
+)
+
+const SuccessDialog: React.FC<{ dialogText: string; onClose: () => void }> = ({dialogText, onClose}) => (
+    <dialog open className="custom-dialog">
+        <p className="absolute top-[50px] text-20">{dialogText}</p>
+        <button onClick={onClose} className="absolute top-[80px] w-[145px] h-[35px] bg-black rounded-[50px] text-white font-regular text-16">Close</button>
     </dialog>
-);
+)
 
 const ErrorDialog: React.FC<{ dialogText: string; onClose: () => void }> = ({ dialogText, onClose }) => (
     <dialog open className="custom-dialog error-dialog">
         <p>{dialogText}</p>
         <button onClick={onClose}>Close</button>
     </dialog>
-);
+)
 
 
 export const PopupDialog: React.FC<PopupDialogProps> = ({ dialogText, dialogType,
