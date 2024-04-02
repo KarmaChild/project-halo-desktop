@@ -1,5 +1,4 @@
 'use client'
-
 import Image from "next/image"
 import {DashBoardNavbar} from "@/app/dashboard/dashboardNavbar"
 import React, {useEffect, useState} from "react"

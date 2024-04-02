@@ -1,4 +1,5 @@
 import React from "react";
+import {MoonLoader} from "react-spinners";
 
 export enum DialogType {
     Alert = "alert",
@@ -40,9 +41,19 @@ const SuccessDialog: React.FC<{ dialogText: string; onClose: () => void }> = ({d
 )
 
 const ErrorDialog: React.FC<{ dialogText: string; onClose: () => void }> = ({ dialogText, onClose }) => (
-    <dialog open className="custom-dialog error-dialog">
-        <p>{dialogText}</p>
-        <button onClick={onClose}>Close</button>
+    <dialog open className="custom-dialog">
+        <p className="absolute top-[50px] text-16">{dialogText}</p>
+        <button onClick={onClose}
+                className="absolute top-[80px] w-[145px] h-[35px] bg-black rounded-[50px] text-white font-regular text-16">Close
+        </button>
+    </dialog>
+)
+
+const LoadingDialog: React.FC<{ dialogText: string; onClose: () => void }> = ({dialogText, onClose}) => (
+    <dialog open className="custom-dialog loading-dialog">
+        <div>
+            <MoonLoader color={"#000000"} loading={true} size={30} speedMultiplier={0.7}/>
+        </div>
     </dialog>
 )
 
@@ -59,13 +70,16 @@ export const PopupDialog: React.FC<PopupDialogProps> = ({ dialogText, dialogType
 
     switch (dialogType) {
         case DialogType.Success:
-            DialogComponent = SuccessDialog;
+            DialogComponent = SuccessDialog
             break;
         case DialogType.Error:
-            DialogComponent = ErrorDialog;
+            DialogComponent = ErrorDialog
+            break;
+        case DialogType.Loading:
+            DialogComponent = LoadingDialog
             break;
         default:
-            DialogComponent = SuccessDialog;
+            DialogComponent = SuccessDialog
     }
 
     return (
