@@ -36,7 +36,7 @@ export const Links:React.FC<LinksProps> = ({username, links}) => {
                 {/* Link previews*/}
                 <div className={`absolute top-[${showForm ? 220 : 75}px]  w-full flex flex-col items-center justify-center`}>
                     {links && links.length > 0 && links.map((link, index) => (
-                        <LinkPreview key={index} title={link.title} link={link.url}/>
+                        <LinkPreview key={index} title={link.title} url={link.url}/>
                     ))}
                 </div>
                 {/* Link previews*/}
