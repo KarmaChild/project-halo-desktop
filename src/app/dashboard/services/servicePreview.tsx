@@ -2,12 +2,13 @@ import React from "react";
 import Image from "next/image";
 
 interface ServicePreviewProps {
-    serviceName: string
+    id: string
+    title: string
     description: string
     price: number | 'Free'
 }
 
-export const ServicePreview:React.FC<ServicePreviewProps>  = ({ serviceName, description, price}) => {
+export const ServicePreview:React.FC<ServicePreviewProps>  = ({ title, description, price}) => {
   return (
       <div className="relative w-[430px] h-[75px] bg-grey rounded-[15px] mb-2.5">
           <div className="absolute top-[24px] left-[15px]">
@@ -22,7 +23,7 @@ export const ServicePreview:React.FC<ServicePreviewProps>  = ({ serviceName, des
           </div>
 
           <div className="absolute top-[10px] left-[60px]">
-              <p className="text-20 font-regular">{serviceName}</p>
+              <p className="text-20 font-regular">{title}</p>
           </div>
 
           <div className="absolute top-[35px] left-[60px]">

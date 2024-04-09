@@ -2,7 +2,7 @@ import React from "react"
 import {Service} from "@/app/[username]/services/service";
 
 interface ServicesProps {
-    services: { serviceName: string, description: string, price: number }[]
+    services: { title: string, description: string, price: number }[]
 }
 
 export const Services:React.FC<ServicesProps> = ({services}) => {
@@ -16,7 +16,7 @@ export const Services:React.FC<ServicesProps> = ({services}) => {
                     {services && services.length > 0 && services.map((service, index) => (
                         <Service
                             key={index}
-                            serviceName={service.serviceName}
+                            title={service.title}
                             description={service.description}
                             price={service.price}
                         />

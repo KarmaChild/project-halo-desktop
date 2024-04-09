@@ -13,7 +13,7 @@ interface UserData {
     name: string
     bio: string
     links: { id:string, title: string, url: string }[]
-    services: { serviceName: string, description: string, price: number }[]
+    services: { id:string, title: string, description: string, price: number }[]
     location: string
 }
 

@@ -1,10 +1,10 @@
 const API_ENDPOINT: string = "addService"
-export const addService = async (username: string, serviceName: string, description: string, price: number) => {
+export const addService = async (username: string, title: string, description: string, price: number) => {
     return new Promise(async (resolve, reject) => {
         try {
             const body = {
                 username: username,
-                serviceName: serviceName,
+                title: title,
                 description: description,
                 price: price
             }

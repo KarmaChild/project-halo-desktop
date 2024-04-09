@@ -8,7 +8,6 @@ interface LinkPreviewProps {
     url: string
 }
 export const LinkPreview:React.FC<LinkPreviewProps> = ({ title, url }) => {
-
     return (
 
             <div className="relative w-[430px] h-[75px] bg-grey rounded-[15px] mb-2.5">

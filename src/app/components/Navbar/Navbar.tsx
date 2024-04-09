@@ -1,4 +1,4 @@
-import {NavbarJoinButton} from "@/app/components/navbar/NavbarJoinButton"
+import {NavbarJoinButton} from "@/app/components/Navbar/NavbarJoinButton"
 
 export const Navbar = () => {
     return (

@@ -44,8 +44,6 @@ export const Info:React.FC<InfoProps> = ({username, name, location, bio}) => {
       } catch (err: any) {
           console.log(err)
           setSaveState(SAVE_STATES.ERROR)
-      } finally {
-
       }
     }
 

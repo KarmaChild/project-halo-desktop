@@ -17,7 +17,7 @@ enum SAVE_STATES {
 }
 
 export const AddServiceForm: React.FC<AddServiceFormProps> = ({username,  onClose }) => {
-    const [serviceName, setServiceName] = useState<string>('')
+    const [title, setTitle] = useState<string>('')
     const [description, setDescription] = useState<string>('')
     const [price, setPrice] = useState<number>(0)
     const [saveState, setSaveState] =
@@ -26,7 +26,7 @@ export const AddServiceForm: React.FC<AddServiceFormProps> = ({username,  onClos
     const handleAddService = async () => {
         try {
             setSaveState(SAVE_STATES.LOADING)
-            await addService(username, serviceName, description, price)
+            await addService(username, title, description, price)
             setSaveState(SAVE_STATES.SUCCESS)
         } catch (err: any) {
             console.log(err)
@@ -74,8 +74,8 @@ export const AddServiceForm: React.FC<AddServiceFormProps> = ({username,  onClos
                     <p className="text-16 font-extralight">Name</p>
                     <input className="w-[315px] h-[40px] rounded-[15px] left-0 font-light pl-2"
                            placeholder="e.g. Full Acrylic Set"
-                           value={serviceName}
-                           onChange={(e) => setServiceName(e.target.value)}
+                           value={title}
+                           onChange={(e) => setTitle(e.target.value)}
                     />
                 </div>
                 <div className="absolute top-[65px]">

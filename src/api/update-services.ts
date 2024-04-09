@@ -1,10 +1,10 @@
-const API_ENDPOINT: string = "updateLinks"
-export const updateLinks = async (username: string, links: { id: string, title: string, url: string }[]) => {
+const API_ENDPOINT: string = "updateServices"
+export const updateServices = async (username: string, services: { id: string, title: string, description: string, price: number }[]) => {
     return new Promise(async (resolve, reject) => {
         try {
             const body = {
                 username: username,
-                links: links
+                services: services
             }
 
             const url = `https://us-central1-halo-d4aba.cloudfunctions.net/${API_ENDPOINT}`
