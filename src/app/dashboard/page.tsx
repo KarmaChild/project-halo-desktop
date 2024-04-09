@@ -6,7 +6,7 @@ import {Info} from "@/app/dashboard/info/info"
 import {Links} from "@/app/dashboard/links/links"
 import {Services} from "@/app/dashboard/services/services"
 import {getUserData} from "@/api/get-user-data";
-import Loading from "@/app/[username]/loading";
+import DashBoardLoading from "@/app/dashboard/loading"
 
 interface UserData {
     username: string
@@ -81,7 +81,7 @@ const Dashboard = () => {
         <div className="relative">
             {
                 loading ? (
-                    <Loading/>
+                    <DashBoardLoading/>
                 ) : (
                     <div className="absolute left-1/2 transform -translate-x-1/2 w-[510px] h-[1420px]">
 

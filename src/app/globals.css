@@ -140,19 +140,19 @@ body {
 
 @keyframes shimmer {
   0% {
-    background-position: -200px 0;
+    background-position: 100% 0;
   }
   100% {
-    background-position: 100px 0;
+    background-position: -100% 0;
   }
 }
 
 .loading-animation {
-  animation: shimmer 3s infinite ease-in-out;
-  background-color: #ddd;  /* Adjust as needed */
-  background-image: linear-gradient(to right, #ddd 0%, #ececec 20%, #ddd 40%, #ececec 60%, #ddd 80%, #ececec 100%);  /* Lighter shade for shimmer */
-  background-size: 200px 100%;  /* Must be same size as animation */
+  animation: shimmer 1s infinite linear;
+  background-image: linear-gradient(to right, #ddd 0%, #ececec 100%);
+  background-size: 200% 100%;
 }
+
 
 @layer utilities {
   .text-balance {
