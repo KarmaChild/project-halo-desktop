@@ -6,8 +6,8 @@ import {closestCenter, DndContext} from "@dnd-kit/core"
 import {arrayMove, SortableContext, useSortable, verticalListSortingStrategy} from "@dnd-kit/sortable"
 import {CSS} from "@dnd-kit/utilities"
 import { isEqual } from 'lodash'
-import {updateLinks} from "@/api/update-links";
-import {DialogType, PopupDialog} from "@/app/components/PopupDialog/PopupDialog";
+import {updateLinks} from "@/api/update-links"
+import {DialogType, PopupDialog} from "@/app/components/PopupDialog/PopupDialog"
 
 interface LinksProps {
     username: string

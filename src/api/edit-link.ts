@@ -1,9 +1,10 @@
-const API_ENDPOINT: string = "addLink"
-export const addLink = async (username: string, title: string, url: string) => {
+const API_ENDPOINT: string = "editLink"
+export const editLink = async (username: string, id: string, title: string, url: string) => {
     return new Promise(async (resolve, reject) => {
         try {
             const body = {
                 username: username,
+                id: id,
                 title: title,
                 url: url
             }

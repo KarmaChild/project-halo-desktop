@@ -1,8 +1,9 @@
 import React, {useState} from "react"
 import Image from "next/image"
-import {SyntheticListenerMap} from "@dnd-kit/core/dist/hooks/utilities";
-import {DraggableAttributes} from "@dnd-kit/core";
-import {DialogType, PopupDialog} from "@/app/components/PopupDialog/PopupDialog";
+import {SyntheticListenerMap} from "@dnd-kit/core/dist/hooks/utilities"
+import {DraggableAttributes} from "@dnd-kit/core"
+import {DialogType, PopupDialog} from "@/app/components/PopupDialog/PopupDialog"
+import {editLink} from "@/api/edit-link"
 
 
 interface LinkPreviewProps {
@@ -15,11 +16,12 @@ interface LinkPreviewProps {
 
 enum STATES {
     DELETE = 'delete',
+    LOADING = 'loading',
     SUCCESS = 'success',
     ERROR = 'error'
 }
 
-export const LinkPreview:React.FC<LinkPreviewProps> = ({ title, url, dragAttributes, dragListeners }) => {
+export const LinkPreview:React.FC<LinkPreviewProps> = ({ id, title, url, dragAttributes, dragListeners }) => {
     const [editMode, setEditMode] = useState(false)
     const [_title, setTitle] = useState(title)
     const [_url, setUrl] = useState(url)
@@ -37,12 +39,25 @@ export const LinkPreview:React.FC<LinkPreviewProps> = ({ title, url, dragAttribu
 
     const handleCloseDialog = () => {
         setState(null)
-        // window.location.reload()
+        window.location.reload()
     }
 
     const handleDelete = () => {
         console.log('delete')
         setState(STATES.DELETE)
+    }
+
+    const handleSaveEdit = async () => {
+        try {
+            setState(STATES.LOADING)
+            await editLink('johnydogz', id, _title, _url)
+            setState(STATES.SUCCESS)
+        } catch (err: any) {
+            console.log(err)
+            setState(STATES.ERROR)
+        } finally {
+            setEditMode(false)
+        }
     }
 
     return (
@@ -56,6 +71,22 @@ export const LinkPreview:React.FC<LinkPreviewProps> = ({ title, url, dragAttribu
                         onYes={handleCloseDialog}
                         onNo={handleCloseDialog}
                     />
+            )}
+            {state === STATES.SUCCESS && (
+                <PopupDialog
+                    dialogText="Saved changes"
+                    dialogType={DialogType.Success}
+                    isOpen={true}
+                    onClose={handleCloseDialog}
+                />
+            )}
+            {state === STATES.LOADING && (
+                <PopupDialog
+                    dialogText=""
+                    dialogType={DialogType.Loading}
+                    isOpen={true}
+                    onClose={handleCloseDialog}
+                />
             )}
             <div className="handle" {...dragAttributes} {...dragListeners}>
                 <div className="absolute top-[24px] left-[15px] cursor-grab">
@@ -99,6 +130,7 @@ export const LinkPreview:React.FC<LinkPreviewProps> = ({ title, url, dragAttribu
                                    alt="&#8599"
                                    draggable={false}
                                    className="mr-1 cursor-pointer"
+                                   onClick={handleSaveEdit}
                             />
                             <Image src="/icons/x.svg"
                                    width={18}
