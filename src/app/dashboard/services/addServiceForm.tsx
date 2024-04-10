@@ -1,9 +1,8 @@
 'use client'
 import Image from "next/image"
 import React, {useState} from "react"
-import {addLink} from "@/api/add-link";
-import {addService} from "@/api/add-service";
-import {DialogType, PopupDialog} from "@/app/components/PopupDialog/PopupDialog";
+import {addService} from "@/api/add-service"
+import {DialogType, PopupDialog} from "@/app/components/PopupDialog/PopupDialog"
 
 interface AddServiceFormProps {
     username: string

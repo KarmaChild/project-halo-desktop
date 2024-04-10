@@ -35,8 +35,17 @@ const SortableService:React.FC<SortableServiceProps> = ({service}) => {
     }
 
     return (
-        <div ref={setNodeRef} style={style} {...attributes} {...listeners} >
-            <ServicePreview key={service.id} id={service.id} title={service.title} description={service.description} price={service.price}/>
+        <div ref={setNodeRef}>
+            <div ref={setNodeRef} style={style}>
+                <ServicePreview key={service.id}
+                                id={service.id}
+                                title={service.title}
+                                description={service.description}
+                                price={service.price}
+                                dragAttributes={{...attributes}}
+                                dragListeners={{...listeners}}
+                />
+            </div>
         </div>
     )
 }
