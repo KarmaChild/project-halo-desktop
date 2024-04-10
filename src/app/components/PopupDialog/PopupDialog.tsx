@@ -33,10 +33,28 @@ const Backdrop: React.FC<{ onClick: () => void }> = ({ onClick }) => (
 
 )
 
+const QuestionDialog: React.FC<{ dialogText: string; onYes?: () => void; onNo?: () => void }> = ({dialogText, onYes, onNo}) => (
+    <dialog open className="custom-dialog">
+        <p className="absolute top-[50px] text-20">{dialogText}</p>
+        <div className="absolute top-[80px] flex w-full justify-center items-center">
+            <button onClick={onYes}
+                    className=" w-[100px] h-[35px] bg-black rounded-[50px] text-white font-regular text-16 hover-bg-black transition duration-300 mr-1">
+                Yes
+            </button>
+            <button onClick={onNo}
+                    className="w-[100px] h-[35px] bg-black rounded-[50px] text-white font-regular text-16 hover-bg-black transition duration-300">
+                No
+            </button>
+        </div>
+    </dialog>
+)
+
 const SuccessDialog: React.FC<{ dialogText: string; onClose: () => void }> = ({dialogText, onClose}) => (
     <dialog open className="custom-dialog">
         <p className="absolute top-[50px] text-20">{dialogText}</p>
-        <button onClick={onClose} className="absolute top-[80px] w-[145px] h-[35px] bg-black rounded-[50px] text-white font-regular text-16">Close</button>
+        <button onClick={onClose}
+                className="absolute top-[80px] w-[145px] h-[35px] bg-black rounded-[50px] text-white font-regular text-16">Close
+        </button>
     </dialog>
 )
 
@@ -49,7 +67,7 @@ const ErrorDialog: React.FC<{ dialogText: string; onClose: () => void }> = ({ di
     </dialog>
 )
 
-const LoadingDialog: React.FC<{ dialogText: string; onClose: () => void }> = ({dialogText, onClose}) => (
+const LoadingDialog: React.FC<{ dialogText: string; onClose: () => void }> = () => (
     <dialog open className="custom-dialog loading-dialog">
         <div>
             <MoonLoader color={"#000000"} loading={true} size={30} speedMultiplier={0.7}/>
@@ -69,6 +87,9 @@ export const PopupDialog: React.FC<PopupDialogProps> = ({ dialogText, dialogType
 
 
     switch (dialogType) {
+        case DialogType.Question:
+            DialogComponent = QuestionDialog
+            break;
         case DialogType.Success:
             DialogComponent = SuccessDialog
             break;

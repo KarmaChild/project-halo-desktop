@@ -25,7 +25,14 @@ enum SAVE_STATES {
 }
 
 const SortableLink:React.FC<SortableLinkProps> = ({link}) => {
-    const {attributes, listeners, setNodeRef, transform, transition} = useSortable({
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition
+    } =
+        useSortable({
         id: link.id
     })
 
@@ -35,18 +42,27 @@ const SortableLink:React.FC<SortableLinkProps> = ({link}) => {
     }
 
     return (
-      <div ref={setNodeRef} style={style} {...attributes} {...listeners} >
-          <LinkPreview key={link.id} id={link.id} title={link.title} url={link.url}/>
-      </div>
-  )
+        <div ref={setNodeRef}>
+            <div ref={setNodeRef} style={style}>
+                <LinkPreview
+                    key={link.id}
+                    id={link.id}
+                    title={link.title}
+                    url={link.url}
+                    dragAttributes={{...attributes}}
+                    dragListeners={{...listeners}}
+                />
+            </div>
+        </div>
+    )
 }
 
-export const Links:React.FC<LinksProps> = ({username, links}) => {
+export const Links: React.FC<LinksProps> = ({username, links}) => {
     const [showForm, setShowForm] = useState(false)
     const [_links, setLinks] = useState(links)
     const [changeSet, setChangeSet] = useState(true)
     const [saveState, setSaveState] =
-        useState< SAVE_STATES.LOADING | SAVE_STATES.SUCCESS | SAVE_STATES.ERROR | null>(null)
+        useState<SAVE_STATES.LOADING | SAVE_STATES.SUCCESS | SAVE_STATES.ERROR | null>(null)
 
     useEffect(() => {
         const hasChanges = !isEqual(_links, links)
