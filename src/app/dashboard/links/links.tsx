@@ -33,7 +33,7 @@ const SortableLink:React.FC<SortableLinkProps> = ({link}) => {
         transition
     } =
         useSortable({
-        id: link.id
+            id: link.id
     })
 
     const style = {

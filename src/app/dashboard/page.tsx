@@ -73,7 +73,9 @@ const Dashboard = () => {
                     <Services username={userData!.username} services={userData!.services}/>
                 )
             default:
-                return null
+                return (
+                    <Info username={userData?.username || ""} name={userData?.name || ""} bio={userData?.bio || ""} location={userData?.location || ""}/>
+                )
         }
     }
 

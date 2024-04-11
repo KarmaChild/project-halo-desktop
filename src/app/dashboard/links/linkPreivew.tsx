@@ -4,6 +4,7 @@ import {SyntheticListenerMap} from "@dnd-kit/core/dist/hooks/utilities"
 import {DraggableAttributes} from "@dnd-kit/core"
 import {DialogType, PopupDialog} from "@/app/components/PopupDialog/PopupDialog"
 import {editLink} from "@/api/edit-link"
+import {deleteLink} from "@/api/delete-link";
 
 
 interface LinkPreviewProps {
@@ -42,9 +43,15 @@ export const LinkPreview:React.FC<LinkPreviewProps> = ({ id, title, url, dragAtt
         window.location.reload()
     }
 
-    const handleDelete = () => {
-        console.log('delete')
-        setState(STATES.DELETE)
+    const handleDelete = async () => {
+        try {
+            setState(STATES.LOADING)
+            await deleteLink('johnydogz', id)
+            setState(STATES.SUCCESS)
+        } catch (err: any) {
+            console.log(err)
+            setState(STATES.ERROR)
+        }
     }
 
     const handleSaveEdit = async () => {
@@ -67,9 +74,9 @@ export const LinkPreview:React.FC<LinkPreviewProps> = ({ id, title, url, dragAtt
                         dialogText="Are you sure you want to delete?"
                         dialogType={DialogType.Question}
                         isOpen={true}
-                        onClose={handleCloseDialog}
-                        onYes={handleCloseDialog}
-                        onNo={handleCloseDialog}
+                        onClose={() => setState(null)}
+                        onYes={handleDelete}
+                        onNo={() => setState(null)}
                     />
             )}
             {state === STATES.SUCCESS && (
@@ -89,14 +96,13 @@ export const LinkPreview:React.FC<LinkPreviewProps> = ({ id, title, url, dragAtt
                 />
             )}
             <div className="handle" {...dragAttributes} {...dragListeners}>
-                <div className="absolute top-[24px] left-[15px] cursor-grab">
-                    <Image src="/icons/grip.svg"
-                           width={28}
-                           height={28}
-                           alt="&#8599"
-                           draggable={false}
-                    />
-                </div>
+                <Image src="/icons/grip.svg"
+                       width={28}
+                       height={28}
+                       alt="&#8599"
+                       draggable={false}
+                       className="absolute top-[24px] left-[15px] cursor-grab"
+                />
             </div>
 
             {
@@ -117,7 +123,7 @@ export const LinkPreview:React.FC<LinkPreviewProps> = ({ id, title, url, dragAtt
                                    alt="&#8599"
                                    draggable={false}
                                    className="cursor-pointer"
-                                   onClick={handleDelete}
+                                   onClick={() => setState(STATES.DELETE)}
                             />
                         </div>
                     </>

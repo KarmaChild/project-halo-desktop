@@ -4,6 +4,7 @@ import {DraggableAttributes} from "@dnd-kit/core"
 import {SyntheticListenerMap} from "@dnd-kit/core/dist/hooks/utilities"
 import {editService} from "@/api/edit-service"
 import {DialogType, PopupDialog} from "@/app/components/PopupDialog/PopupDialog"
+import {deleteService} from "@/api/delete-service";
 
 interface ServicePreviewProps {
     id: string
@@ -43,9 +44,15 @@ export const ServicePreview:React.FC<ServicePreviewProps>  = ({ id, title, descr
         window.location.reload()
     }
 
-    const handleDelete = () => {
-        console.log('delete')
-        setState(STATES.DELETE)
+    const handleDelete = async () => {
+        try {
+            setState(STATES.LOADING)
+            await deleteService('johnydogz', id)
+            setState(STATES.SUCCESS)
+        } catch (err: any) {
+            console.log(err)
+            setState(STATES.ERROR)
+        }
     }
 
     const handleSaveEdit = async () => {
@@ -68,9 +75,9 @@ export const ServicePreview:React.FC<ServicePreviewProps>  = ({ id, title, descr
                   dialogText="Are you sure you want to delete?"
                   dialogType={DialogType.Question}
                   isOpen={true}
-                  onClose={handleCloseDialog}
-                  onYes={handleCloseDialog}
-                  onNo={handleCloseDialog}
+                  onClose={() => setState(null)}
+                  onYes={handleDelete}
+                  onNo={() => setState(null)}
               />
           )}
           {state === STATES.SUCCESS && (
@@ -90,12 +97,13 @@ export const ServicePreview:React.FC<ServicePreviewProps>  = ({ id, title, descr
               />
           )}
           <div className="handle" {...dragAttributes} {...dragListeners}>
-              <div className="absolute top-[24px] left-[15px]">
-                  <Image src="/icons/grip.png"
-                         width={28}
-                         height={28}
-                         alt="&#8599"/>
-              </div>
+              <Image src="/icons/grip.svg"
+                     width={28}
+                     height={28}
+                     alt="&#8599"
+                     draggable={false}
+                     className="absolute top-[24px] left-[15px] cursor-grab"
+              />
           </div>
 
           {
@@ -116,7 +124,7 @@ export const ServicePreview:React.FC<ServicePreviewProps>  = ({ id, title, descr
                                  alt="&#8599"
                                  draggable={false}
                                  className="cursor-pointer"
-                                 onClick={handleDelete}
+                                 onClick={() => setState(STATES.DELETE)}
                           />
                       </div>
                   </>
@@ -161,10 +169,14 @@ export const ServicePreview:React.FC<ServicePreviewProps>  = ({ id, title, descr
                   </>
               ) : (
                   <>
-                      <div className="absolute top-[10px] left-[330px]">
-                          <input className="w-[40px] h-[23px] rounded-[5px] text-18 font-regular p-1"
-                                 value={_price}
-                                 onChange={(e) => setPrice(parseInt(e.target.value, 10))}
+                      <div className="absolute top-[10px] left-[310px]">
+                          <input
+                              className="w-[50px] h-[23px] rounded-[5px] text-18 font-regular p-1"
+                              type="number"
+                              min="0"
+                              step="1"
+                              value={_price}
+                              onChange={(e) => setPrice(parseInt(e.target.value, 10))}
                           />
                       </div>
 
