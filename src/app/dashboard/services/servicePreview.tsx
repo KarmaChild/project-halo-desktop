@@ -4,13 +4,13 @@ import {DraggableAttributes} from "@dnd-kit/core"
 import {SyntheticListenerMap} from "@dnd-kit/core/dist/hooks/utilities"
 import {editService} from "@/api/edit-service"
 import {DialogType, PopupDialog} from "@/app/components/PopupDialog/PopupDialog"
-import {deleteService} from "@/api/delete-service";
+import {deleteService} from "@/api/delete-service"
 
 interface ServicePreviewProps {
     id: string
     title: string
     description: string
-    price: number | 'Free'
+    price: number
     dragAttributes?: DraggableAttributes
     dragListeners?: SyntheticListenerMap | undefined
 }
@@ -41,7 +41,7 @@ export const ServicePreview:React.FC<ServicePreviewProps>  = ({ id, title, descr
 
     const handleCloseDialog = () => {
         setState(null)
-        window.location.reload()
+        window.location.href = '/dashboard?index=3'
     }
 
     const handleDelete = async () => {
@@ -176,7 +176,7 @@ export const ServicePreview:React.FC<ServicePreviewProps>  = ({ id, title, descr
                               min="0"
                               step="1"
                               value={_price}
-                              onChange={(e) => setPrice(parseInt(e.target.value, 10))}
+                              onChange={(e) => setPrice(parseInt(e.target.value))}
                           />
                       </div>
 

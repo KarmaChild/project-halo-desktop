@@ -61,8 +61,7 @@ export const Links: React.FC<LinksProps> = ({username, links}) => {
     const [showForm, setShowForm] = useState(false)
     const [_links, setLinks] = useState(links)
     const [changeSet, setChangeSet] = useState(true)
-    const [saveState, setSaveState] =
-        useState<SAVE_STATES.LOADING | SAVE_STATES.SUCCESS | SAVE_STATES.ERROR | null>(null)
+    const [saveState, setSaveState] = useState<SAVE_STATES.LOADING | SAVE_STATES.SUCCESS | SAVE_STATES.ERROR | null>(null)
 
     useEffect(() => {
         const hasChanges = !isEqual(_links, links)
@@ -101,7 +100,7 @@ export const Links: React.FC<LinksProps> = ({username, links}) => {
 
     const handleCloseDialog = () => {
         setSaveState(null)
-        window.location.reload()
+        window.location.href = '/dashboard?index=2'
     }
 
     return (

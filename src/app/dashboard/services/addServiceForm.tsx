@@ -37,7 +37,7 @@ export const AddServiceForm: React.FC<AddServiceFormProps> = ({username,  onClos
 
     const handleCloseDialog = () => {
         setSaveState(null)
-        window.location.reload()
+        window.location.href = '/dashboard?index=3'
     }
     return (
         <div className="w-[430px] h-[267px] bg-grey rounded-[15px]">

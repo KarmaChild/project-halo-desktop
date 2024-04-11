@@ -7,6 +7,7 @@ import {Links} from "@/app/dashboard/links/links"
 import {Services} from "@/app/dashboard/services/services"
 import {getUserData} from "@/api/get-user-data";
 import DashBoardLoading from "@/app/dashboard/loading"
+import {useSearchParams} from 'next/navigation'
 
 interface UserData {
     username: string
@@ -17,10 +18,37 @@ interface UserData {
     location: string
 }
 
+const enum MAIN_AREA {
+    INFO = 0,
+    GALLERY = 1,
+    LINKS = 2,
+    SERVICES = 3
+}
+
+const indexToMainArea = (index: string): MAIN_AREA | null => {
+    const indexInt = parseInt(index)
+
+    switch (indexInt){
+        case 0:
+            return MAIN_AREA.INFO
+        case 1:
+            return MAIN_AREA.GALLERY
+        case 2:
+            return MAIN_AREA.LINKS
+        case 3:
+            return MAIN_AREA.SERVICES
+        default:
+            return MAIN_AREA.INFO
+    }
+}
+
 const Dashboard = () => {
     const username = 'johnydogz'
     const [userData, setUserData] = useState<UserData | null>(null)
     const [loading, setLoading] = useState<boolean>(true)
+
+    const searchParams = useSearchParams()
+    const index = searchParams.get('index')
 
     useEffect(() => {
         if (username) {
@@ -28,7 +56,6 @@ const Dashboard = () => {
                 .then((response: any) => {
                     const userData = response.userData
                     setUserData(userData)
-                    console.log(userData)
                 })
                 .catch(error => {
                     console.error("Error fetching barber information:", error)
@@ -43,14 +70,7 @@ const Dashboard = () => {
         window.open(`/${username}`, '_blank')
     }
 
-    const enum MAIN_AREA {
-        INFO = 1,
-        GALLERY = 2,
-        LINKS = 3,
-        SERVICES = 4
-    }
-
-    const [selectedNavItem, setSelectedNavItem] = useState(MAIN_AREA.INFO)
+    const [selectedNavItem, setSelectedNavItem] = useState(index ? indexToMainArea(index) : MAIN_AREA.INFO)
 
     const renderMainPage = () => {
         switch (selectedNavItem) {

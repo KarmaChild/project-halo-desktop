@@ -36,7 +36,7 @@ export const AddLinkForm: React.FC<AddLinkFormProps> = ({ username, onClose }) =
 
     const handleCloseDialog = () => {
         setSaveState(null)
-        window.location.reload()
+        window.location.href = '/dashboard?index=2'
     }
 
     return (

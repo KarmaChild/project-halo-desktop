@@ -49,7 +49,7 @@ export const Info:React.FC<InfoProps> = ({username, name, location, bio}) => {
 
     const handleCloseDialog = () => {
         setSaveState(null)
-        window.location.reload()
+        window.location.href = '/dashboard'
     }
 
     return (

@@ -94,7 +94,7 @@ export const Services:React.FC<ServicesProps> = ({username, services}) => {
 
     const handleCloseDialog = () => {
         setSaveState(null)
-        window.location.reload()
+        window.location.href = '/dashboard?index=3'
     }
 
     return (
@@ -148,14 +148,14 @@ export const Services:React.FC<ServicesProps> = ({username, services}) => {
                 </div>
                 {/* Link previews*/}
                 {
-                    changeSet ? (
+                    changeSet && (
                         <div className="absolute top-[430px] w-full flex justify-center">
                             <DefaultButton text={"Save"}
                                            disabled={!changeSet}
                                            onClick={handleSave}
                             />
                         </div>
-                    ) : (<></>)
+                    )
                 }
             </div>
         </div>

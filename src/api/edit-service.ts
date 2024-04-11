@@ -1,5 +1,5 @@
 const API_ENDPOINT: string = "editService"
-export const editService = async (username: string, id: string, title: string, description: string, price: number | "Free") => {
+export const editService = async (username: string, id: string, title: string, description: string, price: number) => {
     return new Promise(async (resolve, reject) => {
         try {
             const body = {
@@ -7,8 +7,10 @@ export const editService = async (username: string, id: string, title: string, d
                 id: id,
                 title: title,
                 description: description,
-                price: 0 ? price === "Free" : price
+                price: price
             }
+
+            console.log("body", body)
 
             const _url = `https://us-central1-halo-d4aba.cloudfunctions.net/${API_ENDPOINT}`
 

@@ -4,8 +4,7 @@ import {SyntheticListenerMap} from "@dnd-kit/core/dist/hooks/utilities"
 import {DraggableAttributes} from "@dnd-kit/core"
 import {DialogType, PopupDialog} from "@/app/components/PopupDialog/PopupDialog"
 import {editLink} from "@/api/edit-link"
-import {deleteLink} from "@/api/delete-link";
-
+import {deleteLink} from "@/api/delete-link"
 
 interface LinkPreviewProps {
     id: string,
@@ -40,7 +39,7 @@ export const LinkPreview:React.FC<LinkPreviewProps> = ({ id, title, url, dragAtt
 
     const handleCloseDialog = () => {
         setState(null)
-        window.location.reload()
+        window.location.href = '/dashboard?index=2'
     }
 
     const handleDelete = async () => {
