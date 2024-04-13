@@ -8,6 +8,7 @@ import {Services} from "@/app/dashboard/services/services"
 import {getUserData} from "@/api/get-user-data";
 import DashBoardLoading from "@/app/dashboard/loading"
 import {useSearchParams} from 'next/navigation'
+import {Gallery} from "@/app/dashboard/gallery/gallery";
 
 interface UserData {
     username: string
@@ -80,9 +81,7 @@ const Dashboard = () => {
                 )
             case MAIN_AREA.GALLERY:
                 return (
-                    <div>
-                        <p>GALLERY</p>
-                    </div>
+                    <Gallery/>
                 )
             case MAIN_AREA.LINKS:
                 return (
