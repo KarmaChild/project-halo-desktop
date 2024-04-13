@@ -39,6 +39,7 @@ export const Gallery = () => {
                                 <input type="file"
                                        ref={fileInputRef}
                                        style={{display: "none"}}
+                                       accept="image/*"
                                        onChange={handleFileChange}
                                 />
                                 <button
@@ -60,6 +61,7 @@ export const Gallery = () => {
                             <input type="file"
                                    ref={fileInputRef}
                                    style={{display: "none"}}
+                                   accept="image/*"
                                    onChange={handleFileChange}
                             />
                             <DefaultButton text={"Add a Picture"} onClick={handleButtonClick}/>
