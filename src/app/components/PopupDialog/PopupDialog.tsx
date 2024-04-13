@@ -68,7 +68,7 @@ const ErrorDialog: React.FC<{ dialogText: string; onClose: () => void }> = ({ di
 )
 
 const LoadingDialog: React.FC<{ dialogText: string; onClose: () => void }> = () => (
-    <dialog open className="custom-dialog loading-dialog">
+    <dialog open className="custom-dialog">
         <div>
             <MoonLoader color={"#000000"} loading={true} size={30} speedMultiplier={0.7}/>
         </div>
