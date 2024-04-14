@@ -28,13 +28,14 @@ export const Gallery = () => {
                 <div className="absolute top-[0px] w-full flex justify-center">
                     { showSelectedImage ? (
                         <div className="flex justify-center items-center w-[430px] h-[240px] bg-grey rounded-[15px]">
-                            <Image
-                                className="absolute top-[15px]"
-                                src={URL.createObjectURL(selectedImage!)}
-                                width={160}
-                                height={160}
-                                alt={'image'}
-                            />
+                            <div className="absolute top-[15px] w-[160px] h-[160px]">
+                                <Image
+                                    src={URL.createObjectURL(selectedImage!)}
+                                    layout="fill"
+                                    objectFit="contain"
+                                    alt="image"
+                                />
+                            </div>
                             <div className="absolute top-[190px] flex w-full justify-center items-center">
                                 <input type="file"
                                        ref={fileInputRef}
