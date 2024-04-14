@@ -45,8 +45,9 @@ export default function Home() {
                 </div>
                 {/* Navbar */}
             </div>
+
             {/* first page */}
-            <div className="relative w-[1280px] h-[830px]">
+            <div className="relative w-[1280px] h-screen min-h-[830px]">
                 <div className="absolute top-[200px] left-10 leading-tight">
                     <p className="font-bold text-64">
                         One Link<br/>
@@ -69,8 +70,10 @@ export default function Home() {
                 </div>
                 <div className="bg-grey h-[584px] w-[300px] absolute top-[200px] left-[885px] rounded-[30px]"/>
             </div>
+            {/* first page */}
+
             {/* second page */}
-            <div className="relative flex col justify-center items-center w-screen h-[1000px] mt-4 bg-black">
+            <div className="relative flex col justify-center items-center w-screen h-screen min-h-[1000px] mt-4 bg-black">
                 <div className="absolute top-[50px] left-0 right-0">
                     <div className="text-center w-[1090px] h-[137px] m-auto leading-tight">
                         <p className="text-white font-bold text-64">
