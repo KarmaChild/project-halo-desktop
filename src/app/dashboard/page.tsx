@@ -14,6 +14,9 @@ interface UserData {
     username: string
     name: string
     bio: string
+    hideLinks: boolean
+    hideServices: boolean
+    hideGallery: boolean
     links: { id:string, title: string, url: string }[]
     services: { id:string, title: string, description: string, price: number }[]
     location: string
@@ -81,15 +84,15 @@ const Dashboard = () => {
                 )
             case MAIN_AREA.GALLERY:
                 return (
-                    <Gallery/>
+                    <Gallery username={userData?.username || ""} hidden={userData!.hideGallery}/>
                 )
             case MAIN_AREA.LINKS:
                 return (
-                    <Links username={userData!.username} links={userData!.links}/>
+                    <Links username={userData!.username} links={userData!.links} hidden={userData!.hideLinks}/>
                 )
             case MAIN_AREA.SERVICES:
                 return (
-                    <Services username={userData!.username} services={userData!.services}/>
+                    <Services username={userData!.username} services={userData!.services} hidden={userData!.hideServices}/>
                 )
             default:
                 return (
@@ -134,7 +137,7 @@ const Dashboard = () => {
 
                         {/* Nav bar */}
                         <div className="absolute top-[120px] w-full flex justify-center">
-                            <DashBoardNavbar index={selectedNavItem} onChange={setSelectedNavItem}/>
+                            <DashBoardNavbar index={selectedNavItem || 0} onChange={setSelectedNavItem}/>
                         </div>
                         {/* Nav bar */}
 

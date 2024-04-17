@@ -12,6 +12,7 @@ import {DialogType, PopupDialog} from "@/app/components/PopupDialog/PopupDialog"
 interface LinksProps {
     username: string
     links: { id: string, title: string, url: string }[]
+    hidden: boolean
 }
 
 interface SortableLinkProps {
@@ -57,16 +58,17 @@ const SortableLink:React.FC<SortableLinkProps> = ({link}) => {
     )
 }
 
-export const Links: React.FC<LinksProps> = ({username, links}) => {
+export const Links: React.FC<LinksProps> = ({username, links, hidden}) => {
     const [showForm, setShowForm] = useState(false)
     const [_links, setLinks] = useState(links)
+    const [hide, setHide] = useState<boolean>(hidden)
     const [changeSet, setChangeSet] = useState(true)
     const [saveState, setSaveState] = useState<SAVE_STATES.LOADING | SAVE_STATES.SUCCESS | SAVE_STATES.ERROR | null>(null)
 
     useEffect(() => {
-        const hasChanges = !isEqual(_links, links)
+        const hasChanges = !isEqual(_links, links) || hide !== hidden
         setChangeSet(hasChanges)
-    }, [_links])
+    }, [_links, hide])
 
     const handleButtonClick = () => {
         setShowForm(true)
@@ -90,7 +92,7 @@ export const Links: React.FC<LinksProps> = ({username, links}) => {
     const handleSave = async () => {
         try {
             setSaveState(SAVE_STATES.LOADING)
-            await updateLinks(username, _links)
+            await updateLinks(username, _links, hide)
             setSaveState(SAVE_STATES.SUCCESS)
         } catch (err: any) {
             console.log(err)
@@ -133,7 +135,11 @@ export const Links: React.FC<LinksProps> = ({username, links}) => {
                 {/* Hide links button*/}
                 <div className="absolute top-[-10px] w-full flex justify-center">
                     <p className="font-light text-20 mr-2.5">Hide Links page</p>
-                    <input type="checkbox" className="scale-125"/>
+                    <input type="checkbox"
+                           className="scale-125 accent-[#7C5FF8]"
+                           checked={hide}
+                           onChange={() => setHide(!hide)}
+                    />
                 </div>
                 {/* Hide links button*/}
 

@@ -1,5 +1,3 @@
-
-
 const API_ENDPOINT: string = "getUserData"
 export const getUserData = async (username: string) => {
     return new Promise(async (resolve, reject) => {

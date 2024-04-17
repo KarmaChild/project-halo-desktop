@@ -12,6 +12,7 @@ import {closestCenter, DndContext} from "@dnd-kit/core"
 interface ServicesProps {
     username: string
     services: { id: string, title: string, description: string, price: number }[]
+    hidden: boolean
 }
 
 interface SortableServiceProps {
@@ -50,17 +51,18 @@ const SortableService:React.FC<SortableServiceProps> = ({service}) => {
     )
 }
 
-export const Services:React.FC<ServicesProps> = ({username, services}) => {
+export const Services:React.FC<ServicesProps> = ({username, services, hidden}) => {
     const [showForm, setShowForm] = useState(false)
     const [_services, setServices] = useState(services)
+    const [hide, setHide] = useState<boolean>(hidden)
     const [changeSet, setChangeSet] = useState(true)
     const [saveState, setSaveState] =
         useState< SAVE_STATES.LOADING | SAVE_STATES.SUCCESS | SAVE_STATES.ERROR | null>(null)
 
     useEffect(() => {
-        const hasChanges = !isEqual(_services, services)
+        const hasChanges = !isEqual(_services, services) || hide !== hidden
         setChangeSet(hasChanges)
-    }, [_services])
+    }, [_services, hide])
 
     const handleButtonClick = () => {
         setShowForm(true)
@@ -84,7 +86,7 @@ export const Services:React.FC<ServicesProps> = ({username, services}) => {
     const handleSave = async () => {
         try {
             setSaveState(SAVE_STATES.LOADING)
-            await updateServices(username, _services)
+            await updateServices(username, _services, hide)
             setSaveState(SAVE_STATES.SUCCESS)
         } catch (err: any) {
             console.log(err)
@@ -128,7 +130,10 @@ export const Services:React.FC<ServicesProps> = ({username, services}) => {
                 {/* Hide services button*/}
                 <div className="absolute top-[-10px] w-full flex justify-center">
                     <p className="font-light text-20 mr-2.5">Hide Services page</p>
-                    <input type="checkbox" className="scale-125"/>
+                    <input type="checkbox"
+                           className="scale-125 accent-[#7C5FF8]"
+                           checked={hide}
+                           onChange={() => setHide(!hide)}/>
                 </div>
                 {/* Hide services button*/}
 

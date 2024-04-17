@@ -1,10 +1,9 @@
-const API_ENDPOINT: string = "updateLinks"
-export const updateLinks = async (username: string, links: { id: string, title: string, url: string }[], hidden: boolean) => {
+const API_ENDPOINT: string = "updateGallery"
+export const updateGallery = async (username: string, hidden: boolean) => {
     return new Promise(async (resolve, reject) => {
         try {
             const body = {
                 username: username,
-                links: links,
                 hidden: hidden
             }
 
@@ -27,4 +26,6 @@ export const updateLinks = async (username: string, links: { id: string, title: 
         }
     })
 }
+
+
 

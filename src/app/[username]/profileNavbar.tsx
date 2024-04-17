@@ -4,10 +4,11 @@ import React, {useState} from "react"
 
 export interface ProfileNavBarProps {
     index: number
+    pages: string[]
     onChange?: (index: number) => void
 }
 
-export const ProfileNavBar:React.FC<ProfileNavBarProps> = ({index, onChange}) => {
+export const ProfileNavBar:React.FC<ProfileNavBarProps> = ({index, pages, onChange}) => {
     const [selectedButton, setSelectedButton] = useState(index)
     const handleButtonClick = (index: any) => {
         setSelectedButton(index)
@@ -18,11 +19,11 @@ export const ProfileNavBar:React.FC<ProfileNavBarProps> = ({index, onChange}) =>
         <div className="w-[330px] h-[30px]">
             {/* Row of buttons */}
             <div className="flex">
-                {['Gallery', 'Links', 'Services'].map((label, index) => (
+                {pages.map((label, index) => (
                     <p
                         key={index}
                         className={`flex-1 p-[1px] text-center cursor-pointer text-24 font-regular`}
-                        onClick={() => handleButtonClick(index+1)}
+                        onClick={() => handleButtonClick(index)}
                     >
                         {label}
                     </p>
@@ -32,8 +33,8 @@ export const ProfileNavBar:React.FC<ProfileNavBarProps> = ({index, onChange}) =>
             <div
                 className="h-[3px] bg-black transition-all duration-300"
                 style={{
-                    width: `${100 / 3}%`, // Adjusted for four buttons
-                    marginLeft: `${(selectedButton - 1) * (100 / 3)}%`, // Adjusted for four buttons
+                    width: `${100 / pages.length}%`,
+                    marginLeft: `${(selectedButton) * (100 / pages.length)}%`,
                 }}
             />
         </div>

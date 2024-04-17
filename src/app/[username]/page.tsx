@@ -5,15 +5,18 @@ import {ProfileNavBar} from "@/app/[username]/profileNavbar"
 import {Links} from "@/app/[username]/links/links"
 import {Services} from "@/app/[username]/services/services"
 import {getUserData} from "@/api/get-user-data"
-import Loading from "@/app/[username]/loading";
+import Loading from "@/app/[username]/loading"
 
 
 interface UserData {
     username: string
     name: string
     bio: string
-    links: { title: string, url: string }[]
-    services: { title: string, description: string, price: number }[]
+    hideLinks: boolean
+    hideServices: boolean
+    hideGallery: boolean
+    links: { id:string, title: string, url: string }[]
+    services: { id:string, title: string, description: string, price: number }[]
     location: string
 }
 
@@ -21,6 +24,24 @@ const Profile = () => {
     const username = 'johnydogz'
     const [userData, setUserData] = useState<UserData | null>(null)
     const [loading, setLoading] = useState<boolean>(true)
+    const [pages, setPages] = useState<string[] | null>(null)
+
+    const getPagesList = (hideGallery: boolean, hideLinks: boolean, hideServices: boolean, ) : string[] => {
+        let pages = []
+        if (!hideGallery) {
+            pages.push('Gallery')
+        }
+
+        if (!hideLinks) {
+            pages.push('Links')
+        }
+
+        if (!hideServices) {
+            pages.push('Services')
+        }
+        console.log(pages)
+        return pages
+    }
 
     useEffect(() => {
         if (username) {
@@ -28,27 +49,26 @@ const Profile = () => {
                 .then((response: any) => {
                     const userData = response.userData
                     setUserData(userData)
+                    setPages(getPagesList(userData!.hideGallery, userData!.hideLinks, userData!.hideServices))
                 })
                 .catch(error => {
-                    console.error("Error fetching barber information:", error)
+                    console.error("Error fetching user information:", error)
                 }).finally(() => {
                 setLoading(false)
             })
         }
     }, [username])
 
-    console.log(userData)
-
     const enum MAIN_AREA {
-        GALLERY = 1,
-        LINKS = 2,
-        SERVICES = 3
+        GALLERY = 'Gallery',
+        LINKS = 'Links',
+        SERVICES = 'Services'
     }
 
-    const [selectedNavItem, setSelectedNavItem] = useState(MAIN_AREA.GALLERY)
+    const [selectedNavItem, setSelectedNavItem] = useState(0)
 
     const renderMainPage = () => {
-        switch (selectedNavItem) {
+        switch (pages![selectedNavItem]) {
             case MAIN_AREA.GALLERY:
                 return (
                     <div>
@@ -56,12 +76,10 @@ const Profile = () => {
                     </div>
                 )
             case MAIN_AREA.LINKS:
-                console.log('LINKS')
                 return (
                     <Links links={userData!.links}/>
                 )
             case MAIN_AREA.SERVICES:
-                console.log('SERVICES')
                 return (
                     <Services services={userData!.services}/>
                 )
@@ -106,7 +124,7 @@ const Profile = () => {
 
                             {/* Nav bar */}
                             <div className="absolute top-[310px] w-full flex justify-center">
-                                <ProfileNavBar index={selectedNavItem} onChange={setSelectedNavItem}/>
+                                <ProfileNavBar index={selectedNavItem} pages={pages!} onChange={setSelectedNavItem}/>
                             </div>
                             {/* Nav bar */}
 
