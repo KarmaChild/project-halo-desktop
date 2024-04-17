@@ -130,8 +130,15 @@ export const Links: React.FC<LinksProps> = ({username, links}) => {
                 />
             )}
             <div className="absolute w-[510px] h-[613px]">
+                {/* Hide links button*/}
+                <div className="absolute top-[-10px] w-full flex justify-center">
+                    <p className="font-light text-20 mr-2.5">Hide Links page</p>
+                    <input type="checkbox" className="scale-125"/>
+                </div>
+                {/* Hide links button*/}
+
                 {/* Add link button*/}
-                <div className="absolute top-[0px] w-full flex justify-center">
+                <div className="absolute top-[25px] w-full flex justify-center">
                     {showForm ? (
                         <AddLinkForm username={username} onClose={handleFormCLose}/>
                     ) : (
@@ -141,7 +148,7 @@ export const Links: React.FC<LinksProps> = ({username, links}) => {
                 {/* Add link button*/}
 
                 {/* Link previews*/}
-                <div className={`absolute top-[${showForm ? 220 : 75}px]  w-full flex flex-col items-center justify-center`}>
+                <div className={`absolute ${showForm ? "top-[235px]" : "top-[90px]"}  w-full flex flex-col items-center justify-center`}>
                     <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
                         <SortableContext items={_links} strategy={verticalListSortingStrategy}>
                             {_links && _links.length > 0 && _links.map((link) => (

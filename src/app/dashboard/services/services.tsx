@@ -125,8 +125,15 @@ export const Services:React.FC<ServicesProps> = ({username, services}) => {
             )}
             <div className="absolute w-[510px] h-[613px]">
 
+                {/* Hide services button*/}
+                <div className="absolute top-[-10px] w-full flex justify-center">
+                    <p className="font-light text-20 mr-2.5">Hide Services page</p>
+                    <input type="checkbox" className="scale-125"/>
+                </div>
+                {/* Hide services button*/}
+
                 {/* Add link button*/}
-                <div className="absolute top-[0px] w-full flex justify-center">
+                <div className="absolute top-[25px] w-full flex justify-center">
                     {showForm ? (
                         <AddServiceForm username={username} onClose={handleFormCLose}/>
                     ) : (
@@ -137,7 +144,7 @@ export const Services:React.FC<ServicesProps> = ({username, services}) => {
 
                 {/* Services previews*/}
                 <div
-                    className={`absolute top-[${showForm ? 280 : 75}px]  w-full flex flex-col items-center justify-center`}>
+                    className={`absolute ${showForm ? "top-[235px]" : "top-[90px]"} w-full flex flex-col items-center justify-center`}>
                     <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
                         <SortableContext items={_services} strategy={verticalListSortingStrategy}>
                             {_services && _services.length > 0 && _services.map((service) => (

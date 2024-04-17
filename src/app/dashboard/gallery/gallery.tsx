@@ -24,8 +24,15 @@ export const Gallery = () => {
     return (
         <div className="relative">
             <div className="absolute w-[510px] h-[1115px]">
+                {/* Hide gallery button*/}
+                <div className="absolute top-[-10px] w-full flex justify-center">
+                    <p className="font-light text-20 mr-2.5">Hide Gallery page</p>
+                    <input type="checkbox" className="scale-125"/>
+                </div>
+                {/* Hide gallery button*/}
+
                 {/* Add picture button*/}
-                <div className="absolute top-[0px] w-full flex justify-center">
+                <div className="absolute top-[25px] w-full flex justify-center">
                     { showSelectedImage ? (
                         <div className="flex justify-center items-center w-[430px] h-[240px] bg-grey rounded-[15px]">
                             <div className="absolute top-[15px] w-[160px] h-[160px]">

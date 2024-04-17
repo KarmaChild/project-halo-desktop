@@ -68,7 +68,7 @@ export const AddServiceForm: React.FC<AddServiceFormProps> = ({username,  onClos
             <div className="absolute top-[10px] left-[425px]" onClick={onClose}>
                 <Image src="/icons/x.png" alt="X" width={25} height={25} className="cursor-pointer"/>
             </div>
-            <div className="absolute top-[15px] left-[95px] border-2 border-amber-300">
+            <div className="absolute top-[15px] left-[95px]">
                 <div className="absolute top-0">
                     <p className="text-16 font-extralight">Name</p>
                     <input className="w-[315px] h-[40px] rounded-[15px] left-0 font-light pl-2"
