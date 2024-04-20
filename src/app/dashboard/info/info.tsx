@@ -1,11 +1,12 @@
 'use client'
 import Image from "next/image"
 import {TextEntryField, TextEntryFieldType} from "@/app/components/TextEntryField/TextEntryField"
-import React, {useEffect, useState} from "react"
+import React, {ChangeEvent, useEffect, useRef, useState} from "react"
 import {TextEntryFieldLarge} from "@/app/components/TextEntryField/TextEntryFieldLarge"
 import {DefaultButton} from "@/app/components/Button/DefaultButton"
 import {updateInfo} from "@/api/update-info"
 import {DialogType, PopupDialog} from "@/app/components/PopupDialog/PopupDialog"
+import {ImageCropWindow} from "@/app/dashboard/info/imageCropWindow";
 
 interface InfoProps {
     username: string
@@ -21,13 +22,15 @@ enum SAVE_STATES {
 }
 
 export const Info:React.FC<InfoProps> = ({username, name, location, bio}) => {
-
+    const [selectedImage, setSelectedImage] = useState<File | null>(null)
+    const [showSelectedImage, setShowSelectedImage] = useState<boolean>(false)
     const [_name, setName] = useState<string>(name)
     const [_location, setLocation] = useState<string>(location)
     const [_bio, setBio] = useState<string>(bio)
     const [changeSet, setChangeSet] = useState<boolean>(false)
     const [saveState, setSaveState] =
         useState< SAVE_STATES.LOADING | SAVE_STATES.SUCCESS | SAVE_STATES.ERROR | null>(null)
+    const fileInputRef = useRef<HTMLInputElement>(null)
 
 
     useEffect(() => {
@@ -50,6 +53,24 @@ export const Info:React.FC<InfoProps> = ({username, name, location, bio}) => {
     const handleCloseDialog = () => {
         setSaveState(null)
         window.location.href = '/dashboard'
+    }
+
+    const handleChangeClick = () => {
+        if (fileInputRef.current) fileInputRef.current.click()
+    }
+
+    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files![0]
+
+        if (file){
+            setSelectedImage(file)
+            setShowSelectedImage(true)
+        }
+    }
+
+    const exitCropWindow = () => {
+        setSelectedImage(null)
+        setShowSelectedImage(false)
     }
 
     return (
@@ -85,16 +106,35 @@ export const Info:React.FC<InfoProps> = ({username, name, location, bio}) => {
                   <Image src="/profile.jpg" width={150} height={150} alt='pic' className="rounded-full"/>
               </div>
               <div className="absolute top-[160px] w-full flex justify-center">
-                  <p className="text-16 font-light text-purple mr-3 cursor-pointer hover:underline">Change</p>
+                  <input type="file"
+                         ref={fileInputRef}
+                         style={{display: "none"}}
+                         accept="image/*"
+                         onChange={handleFileChange}
+                  />
+                  <button className="text-16 font-light text-purple mr-3 cursor-pointer hover:underline"
+                          onClick={handleChangeClick}
+                  >Change</button>
                   <p className="text-16 font-light text-red cursor-pointer hover:underline">Remove</p>
               </div>
               {/* Profile pic*/}
+
+              {/* Profile pic change crop window*/}
+              {
+                 showSelectedImage && (
+                      <div className="absolute top-[0px] w-full flex justify-center">
+                          <ImageCropWindow image={selectedImage} onExit={exitCropWindow}/>
+                      </div>
+                  )
+              }
+              {/* Profile pic change crop window*/}
+
 
               {/* Info fields*/}
               <div className="absolute top-[200px] w-full left-[37px]">
                   <p className="absolute top-[0px] font-light text-16">Username (permanent)</p>
                   <div className="absolute top-[25px]">
-                      <TextEntryField inputType={TextEntryFieldType.Text}
+                  <TextEntryField inputType={TextEntryFieldType.Text}
                                       fieldLength={TextEntryFieldType.Default}
                                       value={username}
                                       disabled={true}

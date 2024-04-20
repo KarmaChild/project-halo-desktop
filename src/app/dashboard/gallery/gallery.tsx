@@ -1,5 +1,5 @@
 import {DefaultButton} from "@/app/components/Button/DefaultButton"
-import React, {ChangeEvent, useEffect, useState} from "react"
+import React, {ChangeEvent, useEffect, useRef, useState} from "react"
 import Image from "next/image"
 import {updateGallery} from "@/api/update-gallery"
 import {DialogType, PopupDialog} from "@/app/components/PopupDialog/PopupDialog"
@@ -18,7 +18,7 @@ enum SAVE_STATES {
 export const Gallery:React.FC<GalleryProps> = ({username, hidden}) => {
     const [selectedImage, setSelectedImage] = useState<File | null>(null)
     const [showSelectedImage, setShowSelectedImage] = useState<boolean>(false)
-    const fileInputRef = React.useRef<HTMLInputElement>(null)
+    const fileInputRef = useRef<HTMLInputElement>(null)
     const [hide, setHide] = useState<boolean>(hidden)
     const [changeSet, setChangeSet] = useState(true)
     const [saveState, setSaveState] =
@@ -123,7 +123,8 @@ export const Gallery:React.FC<GalleryProps> = ({username, hidden}) => {
                                 </button>
                                 <button
                                     className="w-[100px] h-[35px] bg-black rounded-[50px] text-white font-light text-16
-                                        hover-bg-black transition duration-300">
+                                        hover-bg-black transition duration-300"
+                                >
                                     upload
                                 </button>
                             </div>
