@@ -6,7 +6,7 @@ import {TextEntryFieldLarge} from "@/app/components/TextEntryField/TextEntryFiel
 import {DefaultButton} from "@/app/components/Button/DefaultButton"
 import {updateInfo} from "@/api/update-info"
 import {DialogType, PopupDialog} from "@/app/components/PopupDialog/PopupDialog"
-import {ImageCropWindow} from "@/app/dashboard/info/imageCropWindow";
+import {ImageCropWindow} from "@/app/dashboard/info/imageCropWindow"
 
 interface InfoProps {
     username: string
@@ -71,6 +71,7 @@ export const Info:React.FC<InfoProps> = ({username, name, location, bio}) => {
     const exitCropWindow = () => {
         setSelectedImage(null)
         setShowSelectedImage(false)
+        fileInputRef.current!.value = ''
     }
 
     return (

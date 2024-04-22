@@ -1,39 +1,80 @@
 import Image from "next/image"
-import React, {ChangeEvent, ReactEventHandler, useState} from "react";
-import ReactCrop, {centerCrop, Crop} from "react-image-crop";
-import "react-image-crop/dist/ReactCrop.css";
-import {makeAspectCrop} from "react-image-crop";
+import React, {useState} from "react"
+import ReactCrop, {Crop} from "react-image-crop"
+import "react-image-crop/dist/ReactCrop.css"
+import {makeAspectCrop} from "react-image-crop"
 
 interface ImageCropWindowProps {
     image: File | null
     onExit: () => void
+    onCropComplete?: (croppedImage: Blob) => void
 }
 
-export const ImageCropWindow:React.FC<ImageCropWindowProps> = ({image, onExit}) => {
+export const ImageCropWindow:React.FC<ImageCropWindowProps> = ({image, onExit, onCropComplete}) => {
     const ASPECT_RATIO = 1
-    const MIN_WIDTH = 30
-    const [crop, setCrop] = useState<Crop>({
-        unit: '%',
-        width: 30,
-        height: 35,
-        x: 25,
-        y: 25
-    })
+    const MIN_DIMENSION = 150
+    const [crop, setCrop] = useState<Crop>()
 
     const onImageLoad = (e: any) => {
-        const {width, height} = e.currentTarget
+        const { width, height } = e.currentTarget
+        const cropWidthInPercent = (MIN_DIMENSION / width) * 100
+
         const crop = makeAspectCrop(
             {
                 unit: "%",
-                width: MIN_WIDTH,
+                width: cropWidthInPercent,
             },
             ASPECT_RATIO,
             width,
             height
         )
-        const centeredCrop = centerCrop(crop, width, height)
         setCrop(crop)
     }
+
+    const getCroppedImg = async (image: File, pixelCrop: Crop) => {
+        const canvas = document.createElement("canvas")
+        const ctx = canvas.getContext("2d")
+
+        if (!image || !ctx) {
+            console.error("Error: Invalid image or canvas context")
+            return
+        }
+
+        const imageSrc = URL.createObjectURL(image)
+        const img = new Image()
+
+        img.onload = () => {
+            canvas.width = pixelCrop.width
+            canvas.height = pixelCrop.height
+
+            ctx.drawImage(
+                img,
+                pixelCrop.x,
+                pixelCrop.y,
+                pixelCrop.width,
+                pixelCrop.height,
+                0,
+                0,
+                pixelCrop.width,
+                pixelCrop.height
+            )
+
+            canvas.toBlob((blob) => {
+                if (blob) {
+                    if (onCropComplete) {
+                        onCropComplete(blob)
+                    }
+                }
+            }, "image/jpeg")
+        }
+
+        img.src = imageSrc
+    }
+
+    const handleSave = () => {
+        //getCroppedImg(image!, crop!).then(r =>)
+    }
+
 
 
     return (
@@ -44,11 +85,14 @@ export const ImageCropWindow:React.FC<ImageCropWindowProps> = ({image, onExit}) 
                            circularCrop={true}
                            keepSelection={true}
                            aspect={ASPECT_RATIO}
-                           minWidth={MIN_WIDTH}
+                           minWidth={MIN_DIMENSION}
                 >
                     <img
                         src={URL.createObjectURL(image!)}
                         alt="image"
+                        style={{ maxHeight: "70vh" }}
+                        onChange={onImageLoad}
+                        draggable={false}
                     />
                 </ReactCrop>
             </div>
@@ -56,6 +100,7 @@ export const ImageCropWindow:React.FC<ImageCropWindowProps> = ({image, onExit}) 
                 <button
                     className="w-[145px] h-[35px] bg-white rounded-[50px] text-purple font-regular text-16
                                         hover-bg-grey transition duration-300 mr-2"
+                    onClick={handleSave}
                 >
                     Save
                 </button>
