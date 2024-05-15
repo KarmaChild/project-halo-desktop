@@ -1,27 +1,31 @@
-import Image from "next/image"
-import React, {useState} from "react"
-import ReactCrop, {Crop} from "react-image-crop"
+import React, {useRef, useState} from "react"
+import ReactCrop, {Crop, PixelCrop} from "react-image-crop"
 import "react-image-crop/dist/ReactCrop.css"
 import {makeAspectCrop} from "react-image-crop"
+import {useDebounceEffect} from "./useDebounceEffect"
+import {canvasPreview} from "@/app/dashboard/info/canvasPreview";
 
 interface ImageCropWindowProps {
     image: File | null
     onExit: () => void
-    onCropComplete?: (croppedImage: Blob) => void
 }
 
-export const ImageCropWindow:React.FC<ImageCropWindowProps> = ({image, onExit, onCropComplete}) => {
+export const ImageCropWindow:React.FC<ImageCropWindowProps> = ({image, onExit}) => {
     const ASPECT_RATIO = 1
     const MIN_DIMENSION = 150
     const [crop, setCrop] = useState<Crop>()
+    const [completedCrop, setCompletedCrop] = useState<PixelCrop>()
+    const imgRef = useRef<HTMLImageElement>(null)
+    const canvasRef = useRef<HTMLCanvasElement>(null)
+    const blobUrlRef = useRef('')
+    const hiddenAnchorRef = useRef<HTMLAnchorElement>(null)
 
     const onImageLoad = (e: any) => {
         const { width, height } = e.currentTarget
         const cropWidthInPercent = (MIN_DIMENSION / width) * 100
-
         const crop = makeAspectCrop(
             {
-                unit: "%",
+                unit: "px",
                 width: cropWidthInPercent,
             },
             ASPECT_RATIO,
@@ -31,49 +35,70 @@ export const ImageCropWindow:React.FC<ImageCropWindowProps> = ({image, onExit, o
         setCrop(crop)
     }
 
-    const getCroppedImg = async (image: File, pixelCrop: Crop) => {
-        const canvas = document.createElement("canvas")
-        const ctx = canvas.getContext("2d")
-
-        if (!image || !ctx) {
-            console.error("Error: Invalid image or canvas context")
-            return
+    const handleSave = async () => {
+        const canvas = canvasRef.current
+        const img = imgRef.current
+        if (!img || !canvas || !completedCrop) {
+            throw new Error('Crop canvas does not exist')
         }
 
-        const imageSrc = URL.createObjectURL(image)
-        const img = new Image()
+        const scaleX = img.naturalWidth / img.width
+        const scaleY = img.naturalHeight / img.height
 
-        img.onload = () => {
-            canvas.width = pixelCrop.width
-            canvas.height = pixelCrop.height
-
-            ctx.drawImage(
-                img,
-                pixelCrop.x,
-                pixelCrop.y,
-                pixelCrop.width,
-                pixelCrop.height,
-                0,
-                0,
-                pixelCrop.width,
-                pixelCrop.height
-            )
-
-            canvas.toBlob((blob) => {
-                if (blob) {
-                    if (onCropComplete) {
-                        onCropComplete(blob)
-                    }
-                }
-            }, "image/jpeg")
+        const offscreen = new OffscreenCanvas(
+            completedCrop.width * scaleX,
+            completedCrop.height * scaleY,
+        )
+        const ctx = offscreen.getContext('2d')
+        if (!ctx) {
+            throw new Error('No 2d context')
         }
 
-        img.src = imageSrc
+        ctx.drawImage(
+            canvas,
+            0,
+            0,
+            canvas.width,
+            canvas.height,
+            0,
+            0,
+            offscreen.width,
+            offscreen.height,
+        )
+        const blob = await offscreen.convertToBlob({
+            type: 'image/png',
+        })
+
+        if (blobUrlRef.current) {
+            URL.revokeObjectURL(blobUrlRef.current)
+        }
+        blobUrlRef.current = URL.createObjectURL(blob)
+
+        if (hiddenAnchorRef.current) {
+            hiddenAnchorRef.current.href = blobUrlRef.current
+            hiddenAnchorRef.current.click()
+        }
+
     }
 
-    const handleSave = () => {
-        //getCroppedImg(image!, crop!).then(r =>)
-    }
+    useDebounceEffect(
+        async () => {
+            if (
+                completedCrop?.width &&
+                completedCrop?.height &&
+                imgRef.current &&
+                canvasRef.current
+            ) {
+                await canvasPreview(
+                    imgRef.current,
+                    canvasRef.current,
+                    completedCrop,
+                )
+            }
+        },
+        100,
+        [completedCrop]
+    )
 
 
 
@@ -81,20 +106,38 @@ export const ImageCropWindow:React.FC<ImageCropWindowProps> = ({image, onExit, o
         <div className="relative w-[510px] h-[405px] bg-black rounded-[15px] flex justify-center items-center z-10">
             <div className="absolute top-[30px] w-[413px] h-[275px]">
                 <ReactCrop crop={crop}
-                           onChange={(pixelCrop, percentCrop) => setCrop(percentCrop)}
+                           onChange={(pixelCrop, percentCrop) => setCrop(pixelCrop)}
+                           onComplete={(c) => setCompletedCrop(c)}
                            circularCrop={true}
                            keepSelection={true}
                            aspect={ASPECT_RATIO}
                            minWidth={MIN_DIMENSION}
                 >
                     <img
+                        ref={imgRef}
                         src={URL.createObjectURL(image!)}
                         alt="image"
-                        style={{ maxHeight: "70vh" }}
+                        style={{maxHeight: "70vh"}}
                         onChange={onImageLoad}
                         draggable={false}
                     />
                 </ReactCrop>
+                <canvas
+                    ref={canvasRef}
+                    style={{display: "none"}}
+                />
+                <a
+                    href="#hidden"
+                    ref={hiddenAnchorRef}
+                    download
+                    style={{
+                        position: 'absolute',
+                        top: '-200vh',
+                        visibility: 'hidden',
+                    }}
+                >
+                    Hidden download
+                </a>
             </div>
             <div className="absolute top-[342px] flex w-full justify-center items-center">
                 <button
