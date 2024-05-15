@@ -20,7 +20,7 @@ Your platform for showcasing your finest work, sharing services info, and connec
 
 ### Clone the Repo:
 ```bash
-git clone https://your-github-username/link-in-bio-app.git
+git clone [https://github.com/KarmaChild/project-halo-desktop.git](https://github.com/KarmaChild/project-halo-desktop.git)
 ````
 ### Getting Started
 
