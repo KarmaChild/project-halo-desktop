@@ -7,6 +7,8 @@ import {DefaultButton} from "@/app/components/Button/DefaultButton"
 import {updateInfo} from "@/api/update-info"
 import {DialogType, PopupDialog} from "@/app/components/PopupDialog/PopupDialog"
 import {ImageCropWindow} from "@/app/dashboard/info/imageCropWindow"
+import {getProfilePicUrl} from "@/api/get-profile-pic-url"
+import {deleteProfilePic} from "@/api/delete-profile-pic"
 
 interface InfoProps {
     username: string
@@ -18,20 +20,32 @@ interface InfoProps {
 enum SAVE_STATES {
     LOADING = 'loading',
     SUCCESS = 'success',
-    ERROR = 'error'
+    ERROR = 'error',
+    CONFIRMATION = 'confirmation',
 }
 
 export const Info:React.FC<InfoProps> = ({username, name, location, bio}) => {
-    const [selectedImage, setSelectedImage] = useState<File | null>(null)
-    const [showSelectedImage, setShowSelectedImage] = useState<boolean>(false)
+    const [_profilePicUrl, setProfilePicUrl] = useState<string | undefined>(undefined)
     const [_name, setName] = useState<string>(name)
     const [_location, setLocation] = useState<string>(location)
     const [_bio, setBio] = useState<string>(bio)
+    const [selectedImage, setSelectedImage] = useState<File | null>(null)
+    const [showSelectedImage, setShowSelectedImage] = useState<boolean>(false)
     const [changeSet, setChangeSet] = useState<boolean>(false)
     const [saveState, setSaveState] =
-        useState< SAVE_STATES.LOADING | SAVE_STATES.SUCCESS | SAVE_STATES.ERROR | null>(null)
+        useState< SAVE_STATES.LOADING | SAVE_STATES.SUCCESS | SAVE_STATES.ERROR | SAVE_STATES.CONFIRMATION | null>(null)
     const fileInputRef = useRef<HTMLInputElement>(null)
 
+    useEffect(() => {
+        if (username) {
+            getProfilePicUrl(username).then(
+                (url) => {
+                    console.log('url', url)
+                    setProfilePicUrl(url)
+                }
+            )
+        }
+    }, [username])
 
     useEffect(() => {
         const hasChanges = _name !== name || _location !== location || _bio !== bio
@@ -57,6 +71,21 @@ export const Info:React.FC<InfoProps> = ({username, name, location, bio}) => {
 
     const handleChangeClick = () => {
         if (fileInputRef.current) fileInputRef.current.click()
+    }
+
+    const handleRemoveClick = () => {
+        setSaveState(SAVE_STATES.CONFIRMATION)
+    }
+
+    const handleProfilePicDelete = async () => {
+        try {
+            setSaveState(SAVE_STATES.LOADING)
+            await deleteProfilePic(username)
+            setSaveState(SAVE_STATES.SUCCESS)
+        } catch (err){
+            console.error(err)
+            setSaveState(SAVE_STATES.ERROR)
+        }
     }
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -100,11 +129,26 @@ export const Info:React.FC<InfoProps> = ({username, name, location, bio}) => {
                   onClose={handleCloseDialog}
               />
           )}
+          {saveState === SAVE_STATES.CONFIRMATION && (
+              <PopupDialog
+                  dialogText="Are you sure you want to remove this picture?"
+                  dialogType={DialogType.Question}
+                  isOpen={true}
+                  onYes={handleProfilePicDelete}
+                  onNo={handleCloseDialog}
+                  onClose={handleCloseDialog}
+              />
+          )}
           <div className="absolute w-[510px] h-[613px]">
 
               {/* Profile pic*/}
               <div className="absolute top-[0px] w-full flex justify-center">
-                  <Image src="/profile.jpg" width={150} height={150} alt='pic' className="rounded-full"/>
+                  <Image src={_profilePicUrl || "user.svg"}
+                         loading={'lazy'}
+                         width={150}
+                         height={150}
+                         alt='pic'
+                         className="rounded-full"/>
               </div>
               <div className="absolute top-[160px] w-full flex justify-center">
                   <input type="file"
@@ -115,8 +159,14 @@ export const Info:React.FC<InfoProps> = ({username, name, location, bio}) => {
                   />
                   <button className="text-16 font-light text-purple mr-3 cursor-pointer hover:underline"
                           onClick={handleChangeClick}
-                  >Change</button>
-                  <p className="text-16 font-light text-red cursor-pointer hover:underline">Remove</p>
+                  >
+                      Change
+                  </button>
+                  <button className="text-16 font-light text-red cursor-pointer hover:underline"
+                     onClick={handleRemoveClick}
+                  >
+                      Remove
+                  </button>
               </div>
               {/* Profile pic*/}
 

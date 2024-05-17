@@ -4,6 +4,8 @@ import "react-image-crop/dist/ReactCrop.css"
 import {makeAspectCrop} from "react-image-crop"
 import {useDebounceEffect} from "./useDebounceEffect"
 import {canvasPreview} from "@/app/dashboard/info/canvasPreview";
+import {setProfilePic} from "@/api/set-profile-pic";
+import {DialogType, PopupDialog} from "@/app/components/PopupDialog/PopupDialog";
 
 interface ImageCropWindowProps {
     image: File | null
@@ -19,6 +21,14 @@ export const ImageCropWindow:React.FC<ImageCropWindowProps> = ({image, onExit}) 
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const blobUrlRef = useRef('')
     const hiddenAnchorRef = useRef<HTMLAnchorElement>(null)
+    const [saveState, setSaveState] =
+        useState< SAVE_STATES.LOADING | SAVE_STATES.SUCCESS | SAVE_STATES.ERROR | null>(null)
+
+    enum SAVE_STATES {
+        LOADING = 'loading',
+        SUCCESS = 'success',
+        ERROR = 'error'
+    }
 
     const onImageLoad = (e: any) => {
         const { width, height } = e.currentTarget
@@ -74,11 +84,15 @@ export const ImageCropWindow:React.FC<ImageCropWindowProps> = ({image, onExit}) 
         }
         blobUrlRef.current = URL.createObjectURL(blob)
 
-        if (hiddenAnchorRef.current) {
-            hiddenAnchorRef.current.href = blobUrlRef.current
-            hiddenAnchorRef.current.click()
+        try {
+            setSaveState(SAVE_STATES.LOADING)
+            // needs to be changed once user context is set up
+            await setProfilePic('johnydogz', blob)
+            setSaveState(SAVE_STATES.SUCCESS)
+        } catch (err: any) {
+            console.error(err)
+            setSaveState(SAVE_STATES.ERROR)
         }
-
     }
 
     useDebounceEffect(
@@ -100,10 +114,37 @@ export const ImageCropWindow:React.FC<ImageCropWindowProps> = ({image, onExit}) 
         [completedCrop]
     )
 
-
+    const handleCloseDialog = () => {
+        setSaveState(null)
+        window.location.href = '/dashboard'
+    }
 
     return (
         <div className="relative w-[510px] h-[405px] bg-black rounded-[15px] flex justify-center items-center z-10">
+            {saveState === SAVE_STATES.LOADING && (
+                <PopupDialog
+                    dialogText=""
+                    dialogType={DialogType.Loading}
+                    isOpen={true}
+                    onClose={handleCloseDialog}
+                />
+            )}
+            {saveState === SAVE_STATES.SUCCESS && (
+                <PopupDialog
+                    dialogText="Saved changes"
+                    dialogType={DialogType.Success}
+                    isOpen={true}
+                    onClose={handleCloseDialog}
+                />
+            )}
+            {saveState === SAVE_STATES.ERROR && (
+                <PopupDialog
+                    dialogText="An Error Occured, Please try again later"
+                    dialogType={DialogType.Error}
+                    isOpen={true}
+                    onClose={handleCloseDialog}
+                />
+            )}
             <div className="absolute top-[30px] w-[413px] h-[275px]">
                 <ReactCrop crop={crop}
                            onChange={(pixelCrop, percentCrop) => setCrop(pixelCrop)}

@@ -35,7 +35,7 @@ const Backdrop: React.FC<{ onClick: () => void }> = ({ onClick }) => (
 
 const QuestionDialog: React.FC<{ dialogText: string; onYes?: () => void; onNo?: () => void }> = ({dialogText, onYes, onNo}) => (
     <dialog open className="custom-dialog">
-        <p className="absolute top-[50px] text-20">{dialogText}</p>
+        <p className="absolute top-[50px] text-16">{dialogText}</p>
         <div className="absolute top-[80px] flex w-full justify-center items-center">
             <button onClick={onYes}
                     className=" w-[100px] h-[35px] bg-black rounded-[50px] text-white font-regular text-16 hover-bg-black transition duration-300 mr-1">

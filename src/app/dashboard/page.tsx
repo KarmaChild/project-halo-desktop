@@ -8,7 +8,7 @@ import {Services} from "@/app/dashboard/services/services"
 import {getUserData} from "@/api/get-user-data";
 import DashBoardLoading from "@/app/dashboard/loading"
 import {useSearchParams} from 'next/navigation'
-import {Gallery} from "@/app/dashboard/gallery/gallery";
+import {Gallery} from "@/app/dashboard/gallery/gallery"
 
 interface UserData {
     username: string
